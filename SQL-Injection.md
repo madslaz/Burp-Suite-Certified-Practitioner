@@ -49,5 +49,13 @@
 
 *The x indicates Hex for UTF-8 HTML, I believe*
 ```
+- As for the lab, originally tried the following (UNION SELECT * FROM user--), which returned 0 units. Need to figure out how many columns maybe?:
+```
+<?xml version="1.0" encoding="UTF-8"?><stockCheck><productId>8 &#x55;NION &#x53;ELECT &#42; &#x46;ROM users.tables&#x2D;&#x2D; </productId><storeId>2</storeId></stockCheck>
+```
+  - Changed it to UNION SELECT null - we see that it only likes to return one column at a time, so we have to concatenate:
+    
+![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/57c4ece1-7ea1-45e4-9866-3cd178865088)
+![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/9fa260e3-3ce6-47d4-bfbc-27d316a4bcdc)
 
 
