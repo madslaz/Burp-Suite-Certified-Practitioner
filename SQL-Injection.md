@@ -104,3 +104,11 @@
 ## SQL injection UNION attack, retrieving data from other tables
 - Columns first, since it could also help me figure out database a bit (not Oracle if you don't need FROM). `' UNION SELECT NULL,NULL--` worked, 3 NULLs did not. 2 columns.
 - Oh, this wasn't as complicated as expected. The prompt gives us the table and columns, so `' UNION SELECT username,password FROM users--` returned the administrator and the password. Lab solved! 
+
+## SQL injection UNION attack, retrieving multiple values in a single column
+- While it seems simple, as we identify two columns with `' UNION SELECT NULL, NULL--` and we are given the table name, users, along with the column names, password and username. However, when we attempt to call `' UNION SELECT username,password FROM users--`, we receive an error.
+- Let's go back and test where we can get string data from. `' UNION SELECT 'abc',NULL FROM users--` returned an error, but `' UNION SELECT NULL,'abc' FROM users--` returned the value in a single column - we need to concat, like in lab **SQL injection with filter bypass via XML encoding**.
+  ' UNION SELECT NULL,username || '~' || password FROM users--`
+
+  ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/c345be98-99da-468f-a847-cbe056a1b61f)
+
