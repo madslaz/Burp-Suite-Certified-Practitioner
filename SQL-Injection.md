@@ -86,7 +86,7 @@
 
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/bacc2d5e-b305-4c3b-9975-39ab01389935)
 
-3. Next, we need to find the table name. Note the table_name variable from the cheatsheet for PostgreSQL. Don't forget the NULL for the 2nd column! If you read through the list of table names, a few stand out, including users_jnmpco:
+3. Next, we need to find the table name. Note the table_name variable from the [cheat sheet](https://portswigger.net/web-security/sql-injection/cheat-sheet) for PostgreSQL. Don't forget the NULL for the 2nd column! If you read through the list of table names, a few stand out, including users_jnmpco:
 
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/0bb6f5e5-659c-4ba6-813d-74b8cd542b4f)
 
@@ -96,4 +96,4 @@
 
 ## SQL injection attack, listing the database contents on Oracle
 - Remember, since it's an Oracle database, every SELECT statement must specify a table to select FROM. There is a built-in table on Oracle called `dual` which you can use for this, so let's use `' UNION SELECT 'abc',NULL FROM dual` - our first guess of two columns was right!
-- Grab the tables with `' UNION SELECT table_name,NULL FROM all_tables--` with help from the [cheatsheet](https://portswigger.net/web-security/sql-injection/cheat-sheet) 
+- Grab the tables with `' UNION SELECT table_name,NULL FROM all_tables--` with help from the [cheat sheet](https://portswigger.net/web-security/sql-injection/cheat-sheet) 
