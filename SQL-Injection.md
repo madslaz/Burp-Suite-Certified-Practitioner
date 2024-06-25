@@ -37,6 +37,11 @@
 
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/cc5bd783-036f-4acc-9d71-c7452b4a7d63)
 
+## SQL injection attack, querying the database type and version on MySQL and Microsoft
+- Just like with Oracle, you need to figure out how many columns there are. Remember that comments are different - if you use `--` for MySQL, you must include a space after! `-- `
+  - Determined number of columns by `' UNION SELECT NULL,NULL-- `, URL-encoded: `'+UNION+SELECT+NULL,NULL--+ ` (3 nulls returned an error)
+      - Could also be done with `' ORDER BY 3 -- `
+
 ## SQL injection with filter bypass via XML encoding
 - Different formats, such as JSON or XML, may provide you ways to obfuscate attacks that are otherwise blocked [Link](https://portswigger.net/web-security/essential-skills/obfuscating-attacks-using-encodings#obfuscation-via-xml-encoding)
 - For example, the following XML-based SQL injection uses an XML escape sequence to encode the S character in SELECT [W3 UTF-8 Link](https://www.w3schools.com/charsets/ref_utf_basic_latin.asp):
@@ -53,7 +58,7 @@
 ```
 <?xml version="1.0" encoding="UTF-8"?><stockCheck><productId>8 &#x55;NION &#x53;ELECT &#42; &#x46;ROM users.tables&#x2D;&#x2D; </productId><storeId>2</storeId></stockCheck>
 ```
-  - Changed it to UNION SELECT null - we see that it only likes to return one column at a time, so we have to concatenate:
+  - Changed it to UNION SELECT null - we see that it only likes to return one column at a time, so we have to concatenate. Both inputs were impacted here:
     
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/57c4ece1-7ea1-45e4-9866-3cd178865088)
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/9fa260e3-3ce6-47d4-bfbc-27d316a4bcdc)
