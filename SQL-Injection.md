@@ -46,6 +46,7 @@
 
 ## SQL injection with filter bypass via XML encoding
 - Different formats, such as JSON or XML, may provide you ways to obfuscate attacks that are otherwise blocked [Link](https://portswigger.net/web-security/essential-skills/obfuscating-attacks-using-encodings#obfuscation-via-xml-encoding)
+  - Can use the bApp extension Hackvertor to assist with encoding/decoding. 
 - For example, the following XML-based SQL injection uses an XML escape sequence to encode the S character in SELECT [W3 UTF-8 Link](https://www.w3schools.com/charsets/ref_utf_basic_latin.asp):
 
 ```
