@@ -112,3 +112,10 @@
 
   ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/c345be98-99da-468f-a847-cbe056a1b61f)
 
+## Blind SQL injection with conditional responses
+- You can extract part of a string, from a specified offset with a specified length. The index is 1-based. For example, each of the following expressions will return the string 'ba':
+  - `SUBSTR('foobar', 4, 2)` - Oracle
+  - `SUBSTRING('foobar', 4, 2)` - Microsoft
+  - `SUBSTRING('foobar', 4, 2)` - PostgreSQL
+  - `SUBSTRING('foobar', 4, 2)` - MySQL
+
