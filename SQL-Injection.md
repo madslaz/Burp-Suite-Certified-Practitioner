@@ -95,3 +95,5 @@
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/73f2d88d-7f6e-4f18-a876-91b6df17ae9c)
 
 ## SQL injection attack, listing the database contents on Oracle
+- Remember, since it's an Oracle database, every SELECT statement must specify a table to select FROM. There is a built-in table on Oracle called `dual` which you can use for this, so let's use `' UNION SELECT 'abc',NULL FROM dual` - our first guess of two columns was right!
+- Grab the tables with `' UNION SELECT table_name,NULL FROM all_tables--` with help from the [cheatsheet](https://portswigger.net/web-security/sql-injection/cheat-sheet) 
