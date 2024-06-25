@@ -83,5 +83,15 @@
    - Also can be achieved with `' ORDER BY 2--`
   2. We know it's a non-Oracle database, let's figure out what database it actually is. Remember to add a NULL because it is expecting 2 columns. 
    - Attempted: `'+UNION+SELECT+%40%40version,NULL--` for Microsoft/MySQL, received an error. `'+UNION+SELECT+version(),NULL--` for PostgreSQL returned:
-     ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/bacc2d5e-b305-4c3b-9975-39ab01389935)
+   - 
+![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/bacc2d5e-b305-4c3b-9975-39ab01389935)
 
+3. Next, we need to find the table name. Note the table_name variable from the cheatsheet for PostgreSQL. Don't forget the NULL for the 2nd column! If you read through the list of table names, a few stand out, including users_jnmpco:
+
+![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/0bb6f5e5-659c-4ba6-813d-74b8cd542b4f)
+
+4. Investigate the columns by using the following `' UNION SELECT column_name,NULL FROM information_schema.columns WHERE table_name = 'users_jnmpco'--` Note the following columns are returned: username_jwuwyw, email, and password_yermnb. Now we can call those columns directly with `' UNION SELECT username_jwuwyw,password_yermnb FROM users_jnmpco--`.
+
+![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/73f2d88d-7f6e-4f18-a876-91b6df17ae9c)
+
+## SQL injection attack, listing the database contents on Oracle
