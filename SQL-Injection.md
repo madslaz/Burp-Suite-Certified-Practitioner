@@ -41,6 +41,8 @@
 - Just like with Oracle, you need to figure out how many columns there are. Remember that comments are different - if you use `--` for MySQL, you must include a space after! `-- `
   - Determined number of columns by `' UNION SELECT NULL,NULL-- `, URL-encoded: `'+UNION+SELECT+NULL,NULL--+ ` (3 nulls returned an error)
       - Could also be done with `' ORDER BY 3 -- `
+- The solution informs you to also determine the data returned by the column, which we will look at in the lab following this one.
+- `'+UNION+SELECT+%40%40version,NULL--+` aka `' UNION SELECT @@version,null-- `
 
 ## SQL injection with filter bypass via XML encoding
 - Different formats, such as JSON or XML, may provide you ways to obfuscate attacks that are otherwise blocked [Link](https://portswigger.net/web-security/essential-skills/obfuscating-attacks-using-encodings#obfuscation-via-xml-encoding)
