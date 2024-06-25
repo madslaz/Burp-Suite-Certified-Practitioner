@@ -44,6 +44,19 @@
 - The solution informs you to also determine the data returned by the column, which we will look at in the lab following this one.
 - `'+UNION+SELECT+%40%40version,NULL--+` aka `' UNION SELECT @@version,null-- `
 
+## SQL injection UNION attack, finding a column containing text
+- Desired interesting data is often returned as a string, so you may need to find the one or more columns whose data type is compatible with strings. You can do this by probing columns:
+```
+' UNION SELECT 'a',NULL,NULL,NULL--
+' UNION SELECT NULL,'a',NULL,NULL--
+' UNION SELECT NULL,NULL,'a',NULL--
+' UNION SELECT NULL,NULL,NULL,'a'--
+```
+- If the column type is not compatible with string data, a database error will likely be caused. If no error, and the response contains additional content like injected string value, relevant column is suitable for retrieving string data. 
+
+![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/0cf51a15-ea3c-4b91-bab5-9136bd1540ec)
+
+
 ## SQL injection with filter bypass via XML encoding
 - Different formats, such as JSON or XML, may provide you ways to obfuscate attacks that are otherwise blocked [Link](https://portswigger.net/web-security/essential-skills/obfuscating-attacks-using-encodings#obfuscation-via-xml-encoding)
   - Can use the bApp extension Hackvertor to assist with encoding/decoding. 
