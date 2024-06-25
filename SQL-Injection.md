@@ -83,7 +83,7 @@
    - Also can be achieved with `' ORDER BY 2--`
   2. We know it's a non-Oracle database, let's figure out what database it actually is. Remember to add a NULL because it is expecting 2 columns. 
    - Attempted: `'+UNION+SELECT+%40%40version,NULL--` for Microsoft/MySQL, received an error. `'+UNION+SELECT+version(),NULL--` for PostgreSQL returned:
-   - 
+
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/bacc2d5e-b305-4c3b-9975-39ab01389935)
 
 3. Next, we need to find the table name. Note the table_name variable from the cheatsheet for PostgreSQL. Don't forget the NULL for the 2nd column! If you read through the list of table names, a few stand out, including users_jnmpco:
