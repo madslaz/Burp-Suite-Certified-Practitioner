@@ -56,7 +56,6 @@
 
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/0cf51a15-ea3c-4b91-bab5-9136bd1540ec)
 
-
 ## SQL injection with filter bypass via XML encoding
 - Different formats, such as JSON or XML, may provide you ways to obfuscate attacks that are otherwise blocked [Link](https://portswigger.net/web-security/essential-skills/obfuscating-attacks-using-encodings#obfuscation-via-xml-encoding)
   - Can use the bApp extension Hackvertor to assist with encoding/decoding. 
@@ -79,4 +78,10 @@
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/57c4ece1-7ea1-45e4-9866-3cd178865088)
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/9fa260e3-3ce6-47d4-bfbc-27d316a4bcdc)
 
+## SQL injection attack, listing the database contents on non-Oracle databases
+1. Determining how many columns by utilizing `' UNION SELECT NULL,NULL,NULL--` - returned an error, so reduced to 2 NULLs - WORKED! 2 columns.
+   - Also can be achieved with `' ORDER BY 2--`
+  2. We know it's a non-Oracle database, let's figure out what database it actually is. Remember to add a NULL because it is expecting 2 columns. 
+   - Attempted: `'+UNION+SELECT+%40%40version,NULL--` for Microsoft/MySQL, received an error. `'+UNION+SELECT+version(),NULL--` for PostgreSQL returned:
+     ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/bacc2d5e-b305-4c3b-9975-39ab01389935)
 
