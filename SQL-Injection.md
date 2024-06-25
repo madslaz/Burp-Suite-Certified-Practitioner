@@ -101,3 +101,6 @@
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/f416588a-d337-46bc-9bdd-a2641d8fb453)
 - Use `' UNION SELECT USERNAME_PLXSAJ,PASSWORD_FSYMXF FROM USERS_GVBORM--` to grab the users and passwords. 
 
+## SQL injection UNION attack, retrieving data from other tables
+- Columns first, since it could also help me figure out database a bit (not Oracle if you don't need FROM). `' UNION SELECT NULL,NULL--` worked, 3 NULLs did not. 2 columns.
+- Oh, this wasn't as complicated as expected. The prompt gives us the table and columns, so `' UNION SELECT username,password FROM users--` returned the administrator and the password. Lab solved! 
