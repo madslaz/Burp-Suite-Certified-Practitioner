@@ -127,9 +127,15 @@
 
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/f11d5925-f4dc-46e4-97b9-29c79c20a829)
 
-4. Let's automate this!
+4. Let's automate this! `0s7Sc0dx14D3iJ8x' AND (SELECT SUBSTRING(password,§1§,1) FROM users WHERE username='administrator')='§a§`
 
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/566cee97-0a17-4b33-a364-54794bec9089)
 
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/b3753af3-f066-44bc-8d7b-eae9b7818010)
+
+## Blind SQL injection with conditional errors
+- Error-based SQL injection refers to cases where you're using error messages to extract or infer sensitive data from the database, even blind.
+  - May be able to exploit using boolean expression, such as the way we exploited with conditional responses [previously](https://portswigger.net/web-security/sql-injection/blind#exploiting-blind-sql-injection-by-triggering-conditional-errors)
+  - May trigger error messages that output the data returned by the query. See ['Extracting sensitive data via verbose SQL error messages'](https://portswigger.net/web-security/sql-injection/blind#extracting-sensitive-data-via-verbose-sql-error-messages)
+- 
 
