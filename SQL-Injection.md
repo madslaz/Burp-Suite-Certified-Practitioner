@@ -142,7 +142,8 @@
   - `xyz' AND (SELECT CASE WHEN (1=2) THEN 1/0 ELSE 'a' END)='a` ~ CASE expression evaluates to 'a', does not cause error
   - `XYZ' AND (SELECT CASE WHEN (1=1) THEN 1/0 ELSE 'a' END)+'a` ~ 1/0 causes divide-by-zero error
 - Need to determine what the error is and whether it is indicative of SQL processing. Thanks to the hint, we know this is an Oracle database:
-  ` Adding a single quotation mark gave us an error, while 2 quotation marks ('') did not cause an error - hint to SQL processing? Since we know it's Oracle, let's attempt a subquery calling from the Oracle table, dual: `"||(SELECT ''FROM dual)||'` - Remember, since this is blind SQL injection, we can't use UNION attacks. 
+  - ` Adding a single quotation mark gave us an error, while 2 quotation marks ('') did not cause an error - hint to SQL processing? Since we know it's Oracle,   let's attempt a subquery calling from the Oracle table, dual: `"||(SELECT '' FROM dual)||'` - Remember, since this is blind SQL injection, we can't use UNION attacks.
+  - If you're having trouble envisioning what's going on with this concat, build out the strings -> `jLxqfFPoA20MH5Au'||(SELECT '' FROM dual)||'` is `'jLxqfFPoA20MH5Au'(SELECT '' FROM dual)''` -> || is appending one string to another string. 
   
     
 
