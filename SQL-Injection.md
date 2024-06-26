@@ -137,5 +137,12 @@
 - Error-based SQL injection refers to cases where you're using error messages to extract or infer sensitive data from the database, even blind.
   - May be able to exploit using boolean expression, such as the way we exploited with conditional responses [previously](https://portswigger.net/web-security/sql-injection/blind#exploiting-blind-sql-injection-by-triggering-conditional-errors)
   - May trigger error messages that output the data returned by the query. See ['Extracting sensitive data via verbose SQL error messages'](https://portswigger.net/web-security/sql-injection/blind#extracting-sensitive-data-via-verbose-sql-error-messages)
-- 
+- If the application carries out SQL queries, but the behavior doesn't change (like the banner in the previous lab), different boolean conditions won't work because it makes no difference in the application's responses.
+- Potentially possible to induce the application to return a different response depending on whether a SQL error occurs:
+  - `xyz' AND (SELECT CASE WHEN (1=2) THEN 1/0 ELSE 'a' END)='a` ~ CASE expression evaluates to 'a', does not cause error
+  - `XYZ' AND (SELECT CASE WHEN (1=1) THEN 1/0 ELSE 'a' END)+'a` ~ 1/0 causes divide-by-zero error
+- Need to determine what the error is and whether it is indicative of SQL processing. Thanks to the hint, we know this is an Oracle database:
+  ` Adding a single quotation mark gave us an error, while 2 quotation marks ('') did not cause an error - hint to SQL processing? Since we know it's Oracle, let's attempt a subquery calling from the Oracle table, dual: `"||(SELECT ''FROM dual)||'` - Remember, since this is blind SQL injection, we can't use UNION attacks. 
+  
+    
 
