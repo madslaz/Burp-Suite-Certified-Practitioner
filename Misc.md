@@ -6,4 +6,4 @@
 
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/12554a2b-795e-4135-88eb-19db2d510fae)
 
-- (webhook.site)[webhook.site} can be utilized for SSRF testing outside of Burp Suite collaborator. 
+- [webhook.site](webhook.site) can be utilized for SSRF testing outside of Burp Suite collaborator. 
