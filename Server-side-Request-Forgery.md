@@ -35,3 +35,6 @@
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/74c66819-f88e-4591-a580-611f0665eea4)
 
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/3128bf9c-4feb-4102-9da5-3f62a670fff3)
+
+## Blind SSRF with Shellshock exploitation
+- 
