@@ -26,3 +26,7 @@
   - For this lab, we altered the IP address from 127.0.0.1 to 127.1 and then DOUBLE encoded the 'admin' payload: `http%3a//127.1/%25%36%31%64%25%36%64%25%36%39%25%36%65`
 
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/af3ffe4a-4a99-4dd4-a3ff-6e9a919745d7)
+
+## SSRF with filter bypass via open redirection vulnerability
+- Look for various URL paramters which could indicate redirection such as `url` and `path`. See more [here](https://github.com/lutfumertceylan/top25-parameter/blob/master/ssrf-parameters.txt)
+- 
