@@ -30,7 +30,7 @@
 ## SSRF with filter bypass via open redirection vulnerability
 - Look for various URL paramters which could indicate redirection such as `url` and `path`. See more [here](https://github.com/lutfumertceylan/top25-parameter/blob/master/ssrf-parameters.txt)
 - In this lab, we noted that the stock checker fetches data from an internal system, but it has been restricted to only access the local application. We, unfortunately, need to access `http://192.168.0.12:8080/admin` to delete the user `carlos`.
-- We discovered that one of the features, 'Next Product' allows for an open redirection, as the `path` variable is inserted ... maybe we should take this URL and throw it in the stock checker - the stock checker can only access local apps, but since this an open redirection, it isn't direct :)
+- We discovered that one of the features, 'Next Product' allows for an open redirection, as the `path` variable is inserted ... maybe we should take this URL and throw it in the stock checker - the stock checker can only access local apps, but with the open redirection, we are able to access the admin interface and delete `carlos` :)
 
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/74c66819-f88e-4591-a580-611f0665eea4)
 
