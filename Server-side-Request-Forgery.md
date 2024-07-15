@@ -36,5 +36,9 @@
 
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/3128bf9c-4feb-4102-9da5-3f62a670fff3)
 
-## Blind SSRF with Shellshock exploitation
-- 
+## SSRF with whitelist-based input filter
+- It is possible that web applications employ an allowlist that matches the input against a list of permitted values. It may look for a match at the beginning of the input or contained within it. You could bypass this filter by exploiting URL parsing inconsistencies. Some strategies include:
+- Embedding credentials in a URL before the hostname: `https://expected-host:fakepassword@evil-host`
+- Indicating a URL fragment with `#`, `https://evil-host#expected-host`
+- Leveraging DNS naming hierarchy `https://expected-host.evil-host`
+- Url-encoding (or double encoding)
