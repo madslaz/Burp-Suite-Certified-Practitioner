@@ -42,4 +42,13 @@
 - Indicating a URL fragment with `#`, `https://evil-host#expected-host`
 - Leveraging DNS naming hierarchy `https://expected-host.evil-host`
 - Url-encoding (or double encoding)
-- During this lab, we attempted various strategies; however, we noted the web application looked for an exact match of stock.weliketoshop.net. We did note you could embed credentials before, such as `http://user@stock.weliketoshop.net` without error. 
+- During this lab, we attempted various strategies; however, we noted the web application looked for an exact match of stock.weliketoshop.net. We did note you could embed credentials before, such as `http://user@stock.weliketoshop.net` without error. Let's see how it processes the "username". First, we insert a `#` and note the SSRF protection mechanism. Let's URL encode it ... protection again ... what about one more time? 'Could not connect to external stock check service' - hey, maybe it's trying to connect to that username now!
+
+![image](https://github.com/user-attachments/assets/8b93ad37-22af-4820-8759-ceaed0782cdc)
+
+![image](https://github.com/user-attachments/assets/7c6d0d90-cd97-4b7d-a1b7-0f585eb9c8c3)
+
+- `http%3A%2F%2Flocalhost%25%32%33@stock.weliketoshop.net%3A8080%2Fadmin/` Decoded: `http://localhost#@stock.weliketoshop.net:8080/admin/`
+
+![image](https://github.com/user-attachments/assets/aa4cdf54-28fa-4661-a1f2-6a7fcc423f4a)
+
