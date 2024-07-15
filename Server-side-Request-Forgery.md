@@ -42,3 +42,4 @@
 - Indicating a URL fragment with `#`, `https://evil-host#expected-host`
 - Leveraging DNS naming hierarchy `https://expected-host.evil-host`
 - Url-encoding (or double encoding)
+- During this lab, we attempted various strategies; however, we noted the web application looked for an exact match of stock.weliketoshop.net. We did note you could embed credentials before, such as `http://user@stock.weliketoshop.net` without error. 
