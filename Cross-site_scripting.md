@@ -42,9 +42,20 @@ if(query) {
 
 - Successful payloads: `</select><svg onload=alert(1)>`, `storeId=Paris</select><body onload=alert(1)>`
 
-## DOM XSS in jQuery anchor href attribute sink using `location.search` source
-- Test
- 
+## DOM XSS in jQuery anchor `href` attribute sink using `location.search` source
+- The lab contains a DOM-based XSS vulnerability in the submit feedback function. We are told it uses jQuery library's `$` function to find an anchor element, and changes its `href` attribute using data from `location.search`.
+- If a JS library such as jQuery is being used, look out for sinks that can alter DOM elements on the page, such as jQuery's `attr()` function. If data is read from a user-controlled source like the URL, then passed to `attr()`, it could be possible to manipulate to cause XSS. For example, here's JS that changes an anchor element's `href` attribute using data from the URL:
+```
+$(function() {
+	$('#backLink').attr("href",(new URLSearchParams(window.location.search)).get('returnUrl'));
+});
+```
+If you modified the URL so that `location.search` contains malicious JS, once applied to the back link's `href`, clicking the back link will execute it. 
+
+![image](https://github.com/user-attachments/assets/f3de307b-64a0-446b-aa1d-1a3835ab7955)
+
+![image](https://github.com/user-attachments/assets/21a1f18f-9fc9-4463-8adb-f73ca2c00666)
+
 ## Miscellaneous Notes
 - Chrome version 92 onward, cross-origin iframes are prevented from calling `alert()`. PoC payload needs to be altered, so using something like print() function.
 - A source is a JS property that accepts data that is potentially attacker-controlled. An example of a source is the `location.search` property because it reads input from the query string, which is relatively simple for an attacker to control.
