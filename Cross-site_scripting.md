@@ -50,9 +50,11 @@ $(function() {
 	$('#backLink').attr("href",(new URLSearchParams(window.location.search)).get('returnUrl'));
 });
 ```
-If you modified the URL so that `location.search` contains malicious JS, once applied to the back link's `href`, clicking the back link will execute it. 
+If you modified the URL so that `location.search` contains malicious JS, once applied to the back link's `href`, clicking the back link will execute it. Payload example: `javascript:alert(document.domain)`
 
 ![image](https://github.com/user-attachments/assets/f3de307b-64a0-446b-aa1d-1a3835ab7955)
+
+- Note the formatting, with `javascript:` preceding the payload ([See more](https://gist.github.com/xsuperbug/1aff5c1d5ddbfefb035f33dd9c8e8a72)). `href` specifies an absolute URL, a relative URL, line to another element, other protocols, or scripts, like `href="javascript:alert('Hello');")`
 
 ![image](https://github.com/user-attachments/assets/21a1f18f-9fc9-4463-8adb-f73ca2c00666)
 
