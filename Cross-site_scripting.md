@@ -16,7 +16,7 @@
 
 ![image](https://github.com/user-attachments/assets/212351b1-da89-41ed-8e87-361162dfb08c)
 
-- When we search something, such as `test`, we can see that it is inserted in the following script. Let's end the source tag and insert a payload, such as `"'><image+src+onerror%3dalert(1)>`:
+- When we search something, such as `test`, we can see that it is inserted in the following script. Let's end the source tag and insert a payload, such as `"'><image+src+onerror%3dalert(1)>` (example given by Burp is `"><svg onload=alert(1)>`):
 ```
 function trackSearch(query) {
  document.write('<img src="/resources/images/tracker.gif?searchTerms='+query+'">');
