@@ -19,3 +19,15 @@
 - A source is a JS property that accepts data that is potentially attacker-controlled. An example of a source is the `location.search` property because it reads input from the query string, which is relatively simple for an attacker to control.
   - Ultimately, any source controlled by the attacker is a potential source. Including the referring URL (exposed by the `document.referrer` string), the user's cookies (exposed by `document.cookie` string), and web messages.
 - A sink is a potentially dangerous JS function or DOM object that can cause undesirable effects if attacker-controlled data is passed to it. For example, the `eval()` function is a sink because it processes the argument that is passed to it as JS. An example of an HTML sink is `document.body.innerHTML` because it potentially allows an attacker to inject malicious HTML and execute arbitrary JS. 
+- Most common source is the URL, which is typically access with the `location` object. Consider the following code:
+```
+goto = location.hash.slice(1)
+if (goto.startsWith('https:')) {
+  location = goto;
+}
+```
+ - If the URL contains a hash fragment that starts with https:, the code extracts the value of the `location.hash` property and sets it as the `location` property of the `window`. An attacker could exploit this with: `https://www.innocent-website.com/example#https://www.evil-user.net`
+
+![image](https://github.com/user-attachments/assets/2f5beb64-03aa-4485-8ddd-bd1b7274b0ba)
+
+![image](https://github.com/user-attachments/assets/3d5a123f-7d92-4ac6-ac13-4ece1dfc50ad)
