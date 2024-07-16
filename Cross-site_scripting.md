@@ -30,7 +30,7 @@ if(query) {
 ![image](https://github.com/user-attachments/assets/afd91667-b956-4e0d-9c79-45b715c4711a)
 
 
-- When I really worked through the above, I constructed: `" '<body onload=alert(1)>`. 
+- When I really worked through the above, I constructed: `" <body onload=alert(1)>`. 
  
 ## Miscellaneous Notes
 - Chrome version 92 onward, cross-origin iframes are prevented from calling alert(). PoC payload needs to be altered, so using something like print() function.
