@@ -34,7 +34,7 @@ if(query) {
 
 ## DOM XSS in `document.write` sink using source `location.search` inside a select element
 - We are told there is a DOM XSS vulnerability in the stock checker functionality of this web application. It uses the JS function, `document.write` which writes data out to a page. The `document.write` function is called with data from `location.search` which you can control via the URL...
-- When we examined the script, we can see that the storeId can be provided as a parameter in the URL. It is used within a <select element>:
+- When we examined the script, we can see that the storeId can be provided as a parameter in the URL. It is used within a `<select element>`:
 
 ![image](https://github.com/user-attachments/assets/4caf2da5-f1eb-479e-93e8-cb2ea52b0e5c)
 
@@ -42,11 +42,11 @@ if(query) {
 
 - `</select><svg onload=alert(1)>`, `storeId=Paris</select><body onload=alert(1)>`
 
-## DOM XSS in jQuery anchor href attribute sink using location.search source
-
+## DOM XSS in jQuery anchor href attribute sink using `location.search` source
+- Test
  
 ## Miscellaneous Notes
-- Chrome version 92 onward, cross-origin iframes are prevented from calling alert(). PoC payload needs to be altered, so using something like print() function.
+- Chrome version 92 onward, cross-origin iframes are prevented from calling `alert()`. PoC payload needs to be altered, so using something like print() function.
 - A source is a JS property that accepts data that is potentially attacker-controlled. An example of a source is the `location.search` property because it reads input from the query string, which is relatively simple for an attacker to control.
   - Ultimately, any source controlled by the attacker is a potential source. Including the referring URL (exposed by the `document.referrer` string), the user's cookies (exposed by `document.cookie` string), and web messages.
 - A sink is a potentially dangerous JS function or DOM object that can cause undesirable effects if attacker-controlled data is passed to it. For example, the `eval()` function is a sink because it processes the argument that is passed to it as JS. An example of an HTML sink is `document.body.innerHTML` because it potentially allows an attacker to inject malicious HTML and execute arbitrary JS. 
