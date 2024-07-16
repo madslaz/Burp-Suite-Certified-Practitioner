@@ -2,7 +2,7 @@
 - Simple payload required, such as `<script>alert(1)</script>`
 - Can also play with payloads from this PortSwigger [cheatsheet](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet#classic-vectors-xss-crypt)
 
-## Stored XSS into HTML context with nothing encoded
+## Stored XSS into HTML context with nothing encoded 
 - Tested all sections required for a comment. Email and website required strict formats. Inserted payload `<body onpageshow=alert(1)>` in both name field and comment field. Confirmed later execution only triggered by comment field. 
 ![image](https://github.com/user-attachments/assets/bc19cd7d-f5f9-483c-82fd-65b85149f4d4)
 
