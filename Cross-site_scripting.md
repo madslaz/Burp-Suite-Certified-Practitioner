@@ -30,7 +30,12 @@ if(query) {
 ![image](https://github.com/user-attachments/assets/afd91667-b956-4e0d-9c79-45b715c4711a)
 
 
-- When I really worked through the above, I constructed: `" <body onload=alert(1)>`. 
+- When I really worked through the above, I constructed: `" <body onload=alert(1)>`.
+
+## DOM XSS in `document.write` sink using source `location.search` inside a select element
+- We are told there is a DOM XSS vulnerability in the stock checker functionality of this web application. It uses the JS function, `document.write` which writes data out to a page. The `document.write` function is called with data from `location.search` which you can control via the URL...
+- `</select><svg onload=alert(1)>`, `storeId=Paris</select><body onload=alert(1)>`
+- 
  
 ## Miscellaneous Notes
 - Chrome version 92 onward, cross-origin iframes are prevented from calling alert(). PoC payload needs to be altered, so using something like print() function.
