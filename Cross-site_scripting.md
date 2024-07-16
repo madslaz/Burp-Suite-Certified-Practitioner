@@ -30,7 +30,7 @@ if(query) {
 ![image](https://github.com/user-attachments/assets/afd91667-b956-4e0d-9c79-45b715c4711a)
 
 
-- When I really worked through the above, I constructed: `" <body onload=alert(1)>`.
+- Another constructed payload: `" <body onload=alert(1)>`.
 
 ## DOM XSS in `document.write` sink using source `location.search` inside a select element
 - We are told there is a DOM XSS vulnerability in the stock checker functionality of this web application. It uses the JS function, `document.write` which writes data out to a page. The `document.write` function is called with data from `location.search` which you can control via the URL...
@@ -40,7 +40,7 @@ if(query) {
 
 ![image](https://github.com/user-attachments/assets/7cd720e7-9daa-4c58-a50f-6d156b921331)
 
-- `</select><svg onload=alert(1)>`, `storeId=Paris</select><body onload=alert(1)>`
+- Successful payloads: `</select><svg onload=alert(1)>`, `storeId=Paris</select><body onload=alert(1)>`
 
 ## DOM XSS in jQuery anchor href attribute sink using `location.search` source
 - Test
