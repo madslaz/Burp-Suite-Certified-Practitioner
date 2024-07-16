@@ -43,6 +43,7 @@ if(query) {
 - `</select><svg onload=alert(1)>`, `storeId=Paris</select><body onload=alert(1)>`
 
 ## DOM XSS in jQuery anchor href attribute sink using location.search source
+
  
 ## Miscellaneous Notes
 - Chrome version 92 onward, cross-origin iframes are prevented from calling alert(). PoC payload needs to be altered, so using something like print() function.
