@@ -10,8 +10,23 @@
 - DOM-based XSS may arise when JavaScript takes data from an attacker-controllable source, such as the URL, and passes it to a sink that supports dynamic code execution, such as `eval()` or `innerHTML`. To exexcute DOM-based XSS, you need to place the data into a source so that it is propagated to a sink and cases execustion of arbitrary JavaScript.
 - Most common source of DOM-based XSS is the URL, which is typically accessed with `window.location` object. The payload is often put in the query string; however, when targeting a 404 page or website running PHP, the payload can also be placed in the path.
 - See more at [DOM-based vulnerabilities page](https://portswigger.net/web-security/dom-based)
-- 
+- [DOM Invader](https://portswigger.net/burp/documentation/desktop/tools/dom-invader) - Burp browser tool that tests for DOM XSS vulnerabilities using a variety of sources and sinks, including both web message and prototype pollution vectors.
 
+![image](https://github.com/user-attachments/assets/6d7f333a-09ce-4657-8656-a407ef72a251)
+
+![image](https://github.com/user-attachments/assets/212351b1-da89-41ed-8e87-361162dfb08c)
+
+- When we search something, such as `test`, we can see that it is inserted in the following script:
+```
+
+function trackSearch(query) {
+ document.write('<img src="/resources/images/tracker.gif?searchTerms='+query+'">');
+  }
+var query = (new URLSearchParams(window.location.search)).get('search');
+if(query) {
+ trackSearch(query);
+}
+```
 
  
 ## Miscellaneous Notes
