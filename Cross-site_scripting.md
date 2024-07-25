@@ -79,10 +79,10 @@ $(window).on('hashchange', function() {
   - More recent versions of jQuery have patched this to prevent you from injecting HTML into a selector when the input begins with a hash character (`#`).
 - Notice you can insert `#Hobbies` to have the page auto-scroll to the blog post. Note the vulnerable code:
 ```
-                        $(window).on('hashchange', function(){
-                            var post = $('section.blog-list h2:contains(' + decodeURIComponent(window.location.hash.slice(1)) + ')');
-                            if (post) post.get(0).scrollIntoView();
-                        });
+$(window).on('hashchange', function(){
+	var post = $('section.blog-list h2:contains(' + decodeURIComponent(window.location.hash.slice(1)) + ')');
+	if (post) post.get(0).scrollIntoView();
+});
 ```
 
 ![image](https://github.com/user-attachments/assets/d332d14e-b34c-4cdb-9b54-9a37469f4cf7)
