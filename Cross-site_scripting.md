@@ -70,12 +70,23 @@ $(window).on('hashchange', function() {
 });
 ```
 - In the above, you can see the `hash` is user controllable, so a threat actor could attempt to inject an XSS vector into the `$()` selector sink. To exploit, you need to trigger the `hashchange` event without user interaction. One of the simplest ways of doing this is to deliver your exploit via an `iframe`:
+  - An inline frame is an HTML element that loads another HTML page within the document (clickjacking!). 
 ```
 <iframe src="https://vulnerable-website.com#" onload="this.src+='<img src=1 onerror=alert(1)>'">
 ```
-- In this example, the `src` attribute points to the vulnerable page with an empty hash value. When the `iframe` is loaded, an XSS vector is appended to the hash, causing the `hashchange` even to fire. 
+- In this example, the `src` attribute points to the vulnerable page with an empty hash value. When the `iframe` is loaded, an XSS vector is appended to the hash, causing the `hashchange` even to fire.
+  - `this` refers to an object. 
   - More recent versions of jQuery have patched this to prevent you from injecting HTML into a selector when the input begins with a hash character (`#`).
-   
+- Notice you can insert `#Hobbies` to have the page auto-scroll to the blog post. Note the vulnerable code:
+```
+                        $(window).on('hashchange', function(){
+                            var post = $('section.blog-list h2:contains(' + decodeURIComponent(window.location.hash.slice(1)) + ')');
+                            if (post) post.get(0).scrollIntoView();
+                        });
+```
+
+![image](https://github.com/user-attachments/assets/d332d14e-b34c-4cdb-9b54-9a37469f4cf7)
+
 
    
 ## Miscellaneous Notes
