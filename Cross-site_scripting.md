@@ -59,8 +59,25 @@ If you modified the URL so that `location.search` contains malicious JS, once ap
 ![image](https://github.com/user-attachments/assets/21a1f18f-9fc9-4463-8adb-f73ca2c00666)
 
 ## DOM XSS in jQuery selector sink using a hashchange event
+- The lab contains a DOM-based cross-site scripting vulnerability on the home page. It uses jQuery's `$()` selector function to auto-scroll to a given post, whocse title is passed via the `location.hash` property. To solve lab, deliver an exploit to the victim which calls `print()` function.
+- jQuery selectors allow you to select and manipulate HTML elements. Selectors are used to find (or select) HTML elements based on their name, id, classes, attributes, types, values of attributes, and much more. Based on existing CSS selectors and has some custom selectors ([See more](https://www.w3schools.com/jquery/jquery_selectors.asp)).
+- The `hashchange` event is fired when the fragment identifier of the URL has changed (the part of the URL beginning with and following the `#` symbol). 
+- Classic DOM XSS vulnerability is using `$()` selector in conjunction with `location.hash` source for animations or auto-scrolling to particular element on page. Behavior often implemented using a vulnerable `hashchange` event handler, similar to the following:
+```
+$(window).on('hashchange', function() {
+	var element = $(location.hash);
+	element[0].scrollIntoView();
+});
+```
+- In the above, you can see the `hash` is user controllable, so a threat actor could attempt to inject an XSS vector into the `$()` selector sink. To exploit, you need to trigger the `hashchange` event without user interaction. One of the simplest ways of doing this is to deliver your exploit via an `iframe`:
+```
+<iframe src="https://vulnerable-website.com#" onload="this.src+='<img src=1 onerror=alert(1)>'">
+```
+- In this example, the `src` attribute points to the vulnerable page with an empty hash value. When the `iframe` is loaded, an XSS vector is appended to the hash, causing the `hashchange` even to fire. 
+  - More recent versions of jQuery have patched this to prevent you from injecting HTML into a selector when the input begins with a hash character (`#`).
+   
 
-
+   
 ## Miscellaneous Notes
 - Chrome version 92 onward, cross-origin iframes are prevented from calling `alert()`. PoC payload needs to be altered, so using something like print() function.
 - A source is a JS property that accepts data that is potentially attacker-controlled. An example of a source is the `location.search` property because it reads input from the query string, which is relatively simple for an attacker to control.
