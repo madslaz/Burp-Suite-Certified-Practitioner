@@ -58,6 +58,9 @@ If you modified the URL so that `location.search` contains malicious JS, once ap
 
 ![image](https://github.com/user-attachments/assets/21a1f18f-9fc9-4463-8adb-f73ca2c00666)
 
+## DOM XSS in jQuery selector sink using a hashchange event
+
+
 ## Miscellaneous Notes
 - Chrome version 92 onward, cross-origin iframes are prevented from calling `alert()`. PoC payload needs to be altered, so using something like print() function.
 - A source is a JS property that accepts data that is potentially attacker-controlled. An example of a source is the `location.search` property because it reads input from the query string, which is relatively simple for an attacker to control.
