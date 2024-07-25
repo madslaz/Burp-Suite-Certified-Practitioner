@@ -85,9 +85,12 @@ $(window).on('hashchange', function(){
 });
 ```
 - What is this script doing? `$(window)` is a jQuery selector selecting that window. `.on('hashchange', function(){` - if there is a hashchange event, it creates a function. It's looking for anything after a # in a URL. `var post=` is creating a variable that will be equivalent to the following: `$('section.blog-list h2:contains(` is looking for an `<h2>` element within a <section> that has a class equal to "blog-list" that contains the following: `'+decodeURIComponent(window.location.hash.slide(1))"')');` if the site's URI contains a # then take the string after the # and assign it to variable, "post". `if (post) post.get(0).scrollIntoView();` this checks if the variable "post" has a value (if the matching element was found). If true, it scrolls the first matching element into view. Sooooo, this script looks to see if there is any change to the URL after the hash. If so, it assigns that change to the variable "post", then searches through the page's "blog-list" section for an `<h2>` element that contains a match. If it finds a match, it will scroll to that place.
-- This is a great in-depth write-up of the [lab](https://medium.com/@marduk.i.am/dom-xss-in-jquery-selector-sink-using-a-hashchange-event-bb3c355b3633). We discover we can create DOM elements using the Console on the page (`var post=$('section.blog-list h2:contains(<h1>Hi there!</h1>)');`).
+- This is a great in-depth write-up of the [lab](https://medium.com/@marduk.i.am/dom-xss-in-jquery-selector-sink-using-a-hashchange-event-bb3c355b3633). We discover we can create DOM elements using the Console on the page (`var post=$('section.blog-list h2:contains(<h1>Hi there!</h1>)');`). When we first create the element, the parentElement is null. We need to attach the child to a parentElement. Find a <div> where you want to attach your <h1> element. I choose <div id="academyLabHeader">
 
 ![image](https://github.com/user-attachments/assets/d332d14e-b34c-4cdb-9b54-9a37469f4cf7)
+
+![image](https://github.com/user-attachments/assets/db5f97f0-7973-4a81-acae-3f42a0f8b015)
+
    
 ## Miscellaneous Notes
 - Chrome version 92 onward, cross-origin iframes are prevented from calling `alert()`. PoC payload needs to be altered, so using something like print() function.
