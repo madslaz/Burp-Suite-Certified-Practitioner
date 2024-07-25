@@ -147,6 +147,7 @@
   - Inserting a fake table, such as `Z1xYCr6Y4IQXrVOI'||(SELECT '' FROM fake)||'` results in an Internal Server Error.
   - Let's try some test conditions:
     ` Z1xYCr6Y4IQXrVOI'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM dual)||'` results in an error, as 1=1, therefore the expression is evaluated to divide by zero, resulting in an error.
+    - We knew to use THEN TO_CHAR from the [cheatsheet](https://portswigger.net/web-security/sql-injection/cheat-sheet) and knowing it was an Oracle database
     `Z1xYCr6Y4IQXrVOI'||(SELECT CASE WHEN (1=2) THEN TO_CHAR(1/0) ELSE '' END FROM dual)||'` results in no error, as 1 does not = 2, so the expression is ELSE'd to END FROM dual
 
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/bf3e8f08-3071-447e-b132-1b2e9a5db829)
