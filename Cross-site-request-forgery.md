@@ -16,6 +16,35 @@
   </body>
 </html>
 ```
+## CSRF where token validation depends on request method
+- We note that changing email requires a CSRF token that cannot be removed or nullified in the body of the POST request.
+- Let's alter the POST request from:
+```
+POST /my-account/change-email HTTP/2
+Host: 0aa300e903e645daa8aadef600a10092.web-security-academy.net
+Cookie: session=6zRITg1tqB9Eh3jTUmhYmhCv0JewZeLJ
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 69
+Origin: https://0aa300e903e645daa8aadef600a10092.web-security-academy.net
+Referer: https://0aa300e903e645daa8aadef600a10092.web-security-academy.net/my-account?id=wiener
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+X-Pwnfox-Color: yellow
+Te: trailers
+
+email=wiener4%40normal-user.net&csrf=wxN4HFe3P0vgWDHNar2dTT0QuGrj8yy9
+```
+to 
+
+![image](https://github.com/user-attachments/assets/28a9f86f-b4be-4d4e-87b1-8e09c212a52e)
+
 
 ## Miscellaneous Notes
 - Basic CSRF PoC template for **CSRF vulnerability with no defenses**:
