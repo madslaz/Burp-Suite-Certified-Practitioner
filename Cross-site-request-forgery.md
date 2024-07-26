@@ -50,7 +50,10 @@ to
 
 ## CSRF where token is not tied to user session
 - Two users are provided. We assume one as compromised and intercept the POST request to change email. Copy the CSRF token and drop the request.
-- Generate a CSRF PoC with the copied CSRF token of the compromised user and use it to change the email of the second user. 
+- Generate a CSRF PoC with the copied CSRF token of the compromised user and use it to change the email of the second user.
+
+## CSRF where token is tied to non-session cookie
+
 
 ## Miscellaneous Notes
 - Basic CSRF PoC template for **CSRF vulnerability with no defenses**:
