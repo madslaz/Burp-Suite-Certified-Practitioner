@@ -45,6 +45,12 @@ to
 
 ![image](https://github.com/user-attachments/assets/28a9f86f-b4be-4d4e-87b1-8e09c212a52e)
 
+## CSRF where token validation depends on token being present
+- Changing email initially includes a CSRF token in the body, but we found just removing it still allows for successful changing of email. We generated a CSRF PoC by just removing the CSRF token.
+
+## CSRF where token is not tied to user session
+- Two users are provided. We assume one as compromised and intercept the POST request to change email. Copy the CSRF token and drop the request.
+- Generate a CSRF PoC with the copied CSRF token of the compromised user and use it to change the email of the second user. 
 
 ## Miscellaneous Notes
 - Basic CSRF PoC template for **CSRF vulnerability with no defenses**:
