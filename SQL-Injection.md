@@ -156,4 +156,10 @@
  
 ![image](https://github.com/user-attachments/assets/1ba3de6a-1d2f-40c9-a2d2-c1593d871d9d)
 
+## Visible error-based SQL injection
+- First, let's check out the TrackingId cookie where we know the vulnerability is located. I threw a single quote and received a 500 error with a verbose error message "Unterminated string literal started at position 52 in SQL SELECT * FROM tracking WHERE id = 'uIUWVXqlTh1CboFj''. Expected  char" SQL processing! a `''` returned 200 OK.
+- Let's adapt the query - `'AND CAST((SELECT 1) AS int)--`. We receive the following error: "argument of AND must be type boolean, not type integer". So let's pop an 1= in front -> `'AND 1=CAST((SELECT 1) AS int)--`
+- Let's jump the gun and go ahead and call `TrackingId='AND 1=CAST((SELECT password from users) AS int)--;` which results in an error of ERROR: more than one row returned by a subquery used as an expression. We need to specify administrator as the user and limit the results; however, we can't add on another WHERE statement to specify where username equals administrator. We do note 'administrator' is the first entry when we run `TrackingId='AND 1=CAST((SELECT username from users LIMIT 1) AS int)--;`.
+- `'AND 1=CAST((SELECT password from users LIMIT 1) AS int)--`
+
 
