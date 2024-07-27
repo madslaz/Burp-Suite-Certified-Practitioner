@@ -53,6 +53,13 @@ to
 - Generate a CSRF PoC with the copied CSRF token of the compromised user and use it to change the email of the second user.
 
 ## CSRF where token is tied to non-session cookie
+- Two accounts provided, email change functionality is vulnerable to CSRF. Uses tokens, but not fully integrated into the site's session handling.
+- How can we change the csrfKey cookie? Well, let's look around the site ... we notice when we search, the response contains a header called `Set-Cookie: LastSearchTerm=test`. Let's see if we can manipulate the search input.
+
+`GET /?search=test%0d%0aSet-Cookie%3a%20csrfKey=OlW2HYkhUmzU9Y8pNOUOdRimsZ632Pl4%3b%20SameSite=None HTTP/2` %0d%0a is /r/n (carraige return, new line).
+
+![image](https://github.com/user-attachments/assets/df5b90aa-f824-45ae-86e3-76949587df6f)
+
 
 
 ## Miscellaneous Notes
