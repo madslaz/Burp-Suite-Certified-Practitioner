@@ -28,3 +28,17 @@
 ```
 
 - You should see a DNS and HTTP request in your Collaborator. 
+
+## Exploiting XInclude to retrieve files
+- Can't control the entire XML document, so you can't define a DTD to launch a clssic XXE attack. To solve, inject an `XInclude` statement to retrieve the contents of the `/etc/passwd` file.
+- Some applications receive client-submitted data, embed it on the server-side into an XML document, and then parse the document. An example of this occurs when client-submitted data is placed into a back-end SOAP request, which is then processed by the backend SOAP service.
+  - SOAP is a messaging protocol for exchanging information between two computers based on XML over the internet. SOAP messages are written purely in XML.
+- In this situation, as mentioned, can't carry out classic XXE attack because you don't control the entire XML document and cannot define or modify a DOCTYPE element. Might be able to use XInclude instead. XInclude part of XML specification that allows an XML document to be built from sub-documents.
+- You can place an `XInclude` attack within any data value in an XML document, so the attack can be performed in situations where you only control a single item of data that is placed into a server-side XML document. Example:
+```
+<foo xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include parse="text" href="file:///etc/passwd"/></foo>
+```
+- xmlns (XML Namespaces) provide a method to avoid element name conflicts. When using prefixes in XML, a namespace for the prefix must be [defined](https://www.w3schools.com/xml/xml_namespaces.asp)
+![image](https://github.com/user-attachments/assets/0aec6233-9685-413f-994b-143f680060a9)
+
