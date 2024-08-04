@@ -105,6 +105,9 @@ $(window).on('hashchange', function(){
 
 ![image](https://github.com/user-attachments/assets/6e7f14c0-8b2c-46af-9b2b-506ec042d74a)
 
+## Stored XSS into anchor `href` attribte with double quotes HTML-encoded
+- Contains a stored XSS vulnerability in the comment functionality. To solve, submit a comment that calls the `alert` function when the comment author name is clicked.
+- `href` attribute allows for javascript pseudo-protocol to execute script, such as `<a href="javascript:alert(document.domain)">` 
 
 ## Miscellaneous Notes
 - Chrome version 92 onward, cross-origin iframes are prevented from calling `alert()`. PoC payload needs to be altered, so using something like print() function.
