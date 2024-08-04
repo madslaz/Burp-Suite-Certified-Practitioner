@@ -93,7 +93,15 @@ $(window).on('hashchange', function(){
 
 - Navigate to the exploit server and utilize the following payload: `<iframe src="https://YOUR-LAB-ID.web-security-academy.net/#" onload="this.src+='<img src=x onerror=print()>'"></iframe>`
   - You can test this in the browser first by appending to #. `https://0a8100e00497972383af15d5009a0094.web-security-academy.net/#'%3Cimg%20src=7%20onerror=print()%3E'`
-   
+
+ ## Reflected XSS into attribute with angle brackets HTML-encoded
+ - Lab contains reflected XSS vulnerability in the search blog functionality where angle brackets are HTML-encoded. To solve, perform XSS attack that injects an attribute and calls the alert function.
+ - Hint: Just because you're able to trigger the alert() yourself doesn't mean that this will work on the victim. You may need to try injecting your proof-of-concept payload with a variety of different attributes before you find one that successfully executes in the victim's browser.
+ - When the XSS content is in an HTML tag attribute value, you might be able to terminate the attribute value, close the tag, and introduce a new one. For example, `"><script>alert(document.domain)</script>'. Most commonly, angle brackets are blocked or encoded, so your input cannot break out of the tag in which it appears. Provided you can terminate the attribute value, you can normally introduce a new attribute that creates a scriptable context, such as an event handler.
+   - [HTML Event Attributes](https://www.w3schools.com/tags/ref_eventattributes.asp)
+   - '" autofocus onfocus=alert(document.domain) x="'
+     - Above will create an onfocus event which whill execute the JS when the element receives the focus, and also adds the autofocus attribute to try to trigger the onfocus event automatically without any user interaction. Finally, it adds x=" to repair the following markup.
+
 ## Miscellaneous Notes
 - Chrome version 92 onward, cross-origin iframes are prevented from calling `alert()`. PoC payload needs to be altered, so using something like print() function.
 - A source is a JS property that accepts data that is potentially attacker-controlled. An example of a source is the `location.search` property because it reads input from the query string, which is relatively simple for an attacker to control.
