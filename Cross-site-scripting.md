@@ -115,6 +115,7 @@ $(window).on('hashchange', function(){
 ## Reflected XSS into a JavaScript string with angle brackets HTML-encoded
 - This lab contains reflected cross-site scripting vulnerability in the search query tracking functionality where angle brackets are encoded. Reflection occurs within a JavaScript string.
 - JavaScript string with angle brackets and double quotes encoded, so we need to use a JS payload. `'; alert(10);//`
+- // is commenting for JavaScript. 
 
 ![image](https://github.com/user-attachments/assets/2e246cc8-d14c-4ede-be6a-3e91f2e2e7a9)
 
