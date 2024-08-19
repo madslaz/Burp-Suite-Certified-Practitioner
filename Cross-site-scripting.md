@@ -110,7 +110,14 @@ $(window).on('hashchange', function(){
 - `href` attribute allows for javascript pseudo-protocol to execute script, such as `<a href="javascript:alert(document.domain)">`
   - [href Attribute](https://www.w3schools.com/tags/att_href.asp)
 - I left a test comment on the blog, and then I examined the HTML, noticing the following line: `<a id="author" href="test.com">Maddie</a>` where test.com was the user-controlled website. This is where the XSS must be, especially because it's the link that is navigated to when the author's name is clicked.
-- I now submitted `javascript:alert(1)` when the website was requested, resulting in the lab being solved. 
+- I now submitted `javascript:alert(1)` when the website was requested, resulting in the lab being solved.
+
+## Reflected XSS into a JavaScript string with angle brackets HTML-encoded
+- This lab contains reflected cross-site scripting vulnerability in the search query tracking functionality where angle brackets are encoded. Reflection occurs within a JavaScript string.
+- JavaScript string with angle brackets and double quotes encoded, so we need to use a JS payload. `'; alert(10);//`
+
+![image](https://github.com/user-attachments/assets/2e246cc8-d14c-4ede-be6a-3e91f2e2e7a9)
+
 
 ## Miscellaneous Notes
 - Chrome version 92 onward, cross-origin iframes are prevented from calling `alert()`. PoC payload needs to be altered, so using something like print() function.
