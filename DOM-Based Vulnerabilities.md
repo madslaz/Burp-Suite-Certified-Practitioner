@@ -57,6 +57,6 @@
                         }, false);
 ```
 - The final payload was `<iframe src=https://0a83008804269a0380e017cb00670089.web-security-academy.net/ onload='this.contentWindow.postMessage("{\"type\":\"load-channel\",\"url\":\"javascript:print()\"}","*")'>`. What did I learn? You need to backslash quotation marks for JSON, `\"`. I reviewed the code, and I noted that `d.url` could be provided as the JavaScript URL from the previous lab. I can see the cases to assist with the JSON keys...
-- When the constructed iframe loads, the postMessage() method sends a web message to the home page with the type load-channel. The even listener receives the message and parses it with JSON.parse() before sending it to the switch.
-- The switch triggers load-channel case, which assigns the url property of the message to the src attribute of the ACMEplayer.element iframe. However, in our case, the url property of the message was actually a JavaScript payload. 
+- When the constructed `iframe` loads, the `postMessage()` method sends a web message to the home page with the type `load-channel`. The event listener receives the message and parses it with `JSON.parse()` before sending it to the switch.
+- The switch triggers `load-channel` case, which assigns the `url` property of the message to the `src` attribute of the ACMEplayer.element `iframe`. However, in our case, the `url` property of the message was actually a JavaScript payload. 
 - **Why does this happen?** The event handler does not contain any form of origin check and the second argument specifics that any targetOrigin is allowed for the web message. 
