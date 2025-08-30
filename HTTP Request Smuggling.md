@@ -47,9 +47,9 @@ q=smuggling
 
 ### How to Perform Request Smuggling
 - Classic request smuggling attacks involve placing both the `Content-Length` header and the `Transfer-Encoding` header into a single HTTP/1 request and manipulating these so that the frontend and the backend servers process the request differently. This is done in different ways depending on the behavior of the two servers:
-    - CL.TE: The frontend server uses the `Content-Length` header and the backend server uses the `Transfer-Encoding` header. 
-    - TE.CL: The frontend server uses the `Transfer-Encoding` header and the backend server uses the `Content-Length` header.
-    - TE.TE: The frontend and the backend servers both support the `Transfer-Encoding` header, but one of the servers can be induced not the process it by obfuscating the header in some way. 
+    - **CL.TE**: The frontend server uses the `Content-Length` header and the backend server uses the `Transfer-Encoding` header. 
+    - **TE.CL**: The frontend server uses the `Transfer-Encoding` header and the backend server uses the `Content-Length` header.
+    - **TE.TE**: The frontend and the backend servers both support the `Transfer-Encoding` header, but one of the servers can be induced not the process it by obfuscating the header in some way. 
 - These are only possible, as mentioned, using HTTP/1 requests. Browsers and other clients, including Burp, use HTTP/2 by default to communicate with servers that explicitly advertise support for it during the TLS handshake. When testing sites with HTTP/2 support, you will need to manually swith protocols in Burp Repeater. You can do this in the `Request attributes` section of the Inspector panel. 
 
 ### CL.TE Vulnerabilities
