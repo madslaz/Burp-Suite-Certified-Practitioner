@@ -17,7 +17,7 @@
 
 - HTTP/1 specification provides two different ways to specify where a request ends:
     1. `Content-Length` header: Pretty straightforward. Specifies the length of the message body in bytes. 
-    2. `Transfer-Encoding` header
+    2. `Transfer-Encoding` header: Specify that the message body uses chunked encoding. Means that the message body contains one or more chunks of data. Each chunk consists of the chunk size in bytes (expressed in a hexadecimal), followed by a newline, followed by the chunk contents. Terminated with a chunk of size zero. For example, hexadecimal of B is 11 (binary: 1011), so b for q=smuggling --> b<br>q=smuggling<br>0
 
 ```
 POST /search HTTP/1.1
