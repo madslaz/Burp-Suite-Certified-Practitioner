@@ -38,3 +38,11 @@ b
 q=smuggling
 0
 ```
+- Burp Suite auto unpacks chunked encoding to make messages easier to view and edit. Browsers do not normally use chunked encoding in requests, and it is normally seen only in server responses. 
+- Since the HTTP/1 specification provides two different methods for specifying the length of HTTP messages, it is possible for a single message to use both methods at once, such that they conflict with each other. The specification attempts to prevent this problem by stating if both the `Content-Length` and `Tranfer-Encoding` headers are present, then the `Content-Length` header should be ignored. This may be sufficient to avoid ambiguity when only a single server is in play, but not when two or more servers are chained together. In this situation, problems can arise for two reasons:
+    1. Some servers do not support the `Transfer-Encoding` header in requests
+    2. Some servers that do support the `Transfer-Encoding` header can be induced not to process it if the header is obfuscated in some way
+- If the frontend and backend servers behave differently in relation to the (possibly obfuscated) `Transfer-Encoding` header, then they might disagree about the boundaries betwen successive requests, leading to request smuggling vulnerabilities. 
+- HTTP/2 end-to-end is inherently immune to request smuggling as it introduces a single, robust mechanism for specifying the length of a request. There is no way for an attacker to introduce the required ambiguity. HOWEVER, many websites have HTTP/2 frontend, but deploy backend infrastructure that only supports HTTP/1. This means frontend has to translate the requests it receives to HTTP/1. Known as HTTP downgrading - more on this in more advanced request smuggling. 
+
+### How to Perform Request Smuggling
