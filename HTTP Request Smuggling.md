@@ -6,4 +6,4 @@
 - Typically, when the frontend server forwards HTTP requests to the backend server, it sends several requests over the same connection for efficiency and performance. HTTP requests are sent one after another, and the receiving server has to determine where one request ends and the next one begins: 
 
 
-![alt text](madslaz/Burp-Suite-Certified-Practitioner/Photos/forwarding-http-requests-to-back-end-server.svg)
+![alt text](Photos/forwarding-http-requests-to-back-end-server.svg)
