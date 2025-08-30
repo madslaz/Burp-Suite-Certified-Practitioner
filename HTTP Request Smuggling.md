@@ -46,3 +46,23 @@ q=smuggling
 - HTTP/2 end-to-end is inherently immune to request smuggling as it introduces a single, robust mechanism for specifying the length of a request. There is no way for an attacker to introduce the required ambiguity. HOWEVER, many websites have HTTP/2 frontend, but deploy backend infrastructure that only supports HTTP/1. This means frontend has to translate the requests it receives to HTTP/1. Known as HTTP downgrading - more on this in more advanced request smuggling. 
 
 ### How to Perform Request Smuggling
+- Classic request smuggling attacks involve placing both the `Content-Length` header and the `Transfer-Encoding` header into a single HTTP/1 request and manipulating these so that the frontend and the backend servers process the request differently. This is done in different ways depending on the behavior of the two servers:
+    - CL.TE: The frontend server uses the `Content-Length` header and the backend server uses the `Transfer-Encoding` header. 
+    - TE.CL: The frontend server uses the `Transfer-Encoding` header and the backend server uses the `Content-Length` header.
+    - TE.TE: The frontend and the backend servers both support the `Transfer-Encoding` header, but one of the servers can be induced not the process it by obfuscating the header in some way. 
+- These are only possible, as mentioned, using HTTP/1 requests. Browsers and other clients, including Burp, use HTTP/2 by default to communicate with servers that explicitly advertise support for it during the TLS handshake. When testing sites with HTTP/2 support, you will need to manually swith protocols in Burp Repeater. You can do this in the `Request attributes` section of the Inspector panel. 
+
+### CL.TE Vulnerabilities
+- The frontend server uses the `Content-Length` header and the backend server uses the `Transfer-Encoding` header. Perform a simple HTTP request smuggling attack as follows in the code block below. The frontend processes the `Content-Length` header and determines the request body is 13 bytres long, up to the end of `SMUGGLED`. Request is forwarded to backend server. 
+- Backend server processes the `Transfer-Encoding` header and treats the message body as using chunked encoding. 
+
+```
+POST / HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 13
+Transfer-Encoding: chunked
+
+0
+
+SMUGGLED
+```
