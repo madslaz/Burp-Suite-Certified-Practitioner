@@ -112,7 +112,7 @@ SMUGGLED
 ```
 
 #### Lab: HTTP Request Smugging, Basic TE.CL Vulnerability
-- I had trouble making this work manually through Burp Repeater; I solved the lab using their Smuggler extension. 
+- I had trouble making this work manually through Burp Repeater; I solved the lab using their Smuggler extension. Attempting to send the request twice did not result in the expected GPOST error. 
 
 ```
 POST / HTTP/2
