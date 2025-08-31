@@ -94,4 +94,4 @@ Transfer-Encoding: chunked
 G
 ```
 
-![alt text](image.png)
+![alt text](Photos/image.png)
