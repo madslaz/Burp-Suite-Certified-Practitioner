@@ -113,6 +113,7 @@ SMUGGLED
 
 #### Lab: HTTP Request Smugging, Basic TE.CL Vulnerability
 - I had trouble making this work manually through Burp Repeater; I solved the lab using their Smuggler extension. Attempting to send the request twice did not result in the expected GPOST error. 
+- Starting from the recon phase, I noticed that when I added `Transfer-Encoding: chunked`, the request was timing out/taking a while. When I added in a 0 to indicate the end of the chunk, I received a 200 OK...Adding a `Content-Length`
 
 ```
 POST / HTTP/2
