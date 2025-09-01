@@ -67,3 +67,4 @@
 - To break out of the JSON, I had to experiment with quotes and backslashes: `/search-results?search=\"\}test`
 ![alt text](<Photos/2025-08-31 21_55_27-Burp Suite Community Edition v2025.7.4 - Temporary Project.png>)
 ![alt text](<Photos/2025-08-31 21_56_56-Burp Suite Community Edition v2025.7.4 - Temporary Project.png>)
+- Final payload ended up being `search=\"-alert(1)}//`. 
