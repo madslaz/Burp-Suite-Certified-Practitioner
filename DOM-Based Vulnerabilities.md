@@ -64,5 +64,6 @@
 #### Lab: Reflected DOM XSS
 - I navigated to the Debugger, and I reviewed the JavaScript file titled 'searchResults.js'. During this time, I got distracted, and I basically forgot to examine the requests coming into Burp altogether. This would be a mistake. 
 - If I had paid attention, I would've noticed my search term is displayed as part of JSON. Reviewing searchResultsjs, we see this: `eval('var searchResultsObj = ' + this.responseText);`. Reminder, XHR is XML HTTP Request which is an API in the form of a JavaScript object to transmit HTTP method requests from a web browser to a web server. 
-
-
+- To break out of the JSON, I had to experiment with quotes and backslashes: `/search-results?search=\"\}test`
+![alt text](<Photos/2025-08-31 21_55_27-Burp Suite Community Edition v2025.7.4 - Temporary Project.png>)
+![alt text](<Photos/2025-08-31 21_56_56-Burp Suite Community Edition v2025.7.4 - Temporary Project.png>)
