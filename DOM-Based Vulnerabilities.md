@@ -67,4 +67,5 @@
 - To break out of the JSON, I had to experiment with quotes and backslashes: `/search-results?search=\"\}test`
 ![alt text](<Photos/2025-08-31 21_55_27-Burp Suite Community Edition v2025.7.4 - Temporary Project.png>)
 ![alt text](<Photos/2025-08-31 21_56_56-Burp Suite Community Edition v2025.7.4 - Temporary Project.png>)
-- Final payload ended up being `search=\"-alert(1)}//`. 
+- Final payload ended up being `search=\"-alert(1)}//`. As the site is not escaping our injected backslask, when the JSON response attempts to escape the opening double-quotes character, it adds a second backslash. The resulting double backslash causes the escape to effectively be canceled out. This means the double-quotes are processed unescaped, which closes the string that should contain the search term. 
+- An arithmetic operator, in this case a subtraction operator, is then used to separate the expressions before the `alert()` function is called. Finally, a closing curly bracket and two forward slashes close the JSON object early and comment out what would have been the rest of the object. I tried it again with another arithmetic operator, and I found it worked, `\"+alert(1)}//`. 
