@@ -105,5 +105,24 @@ scope=https://oauth-authorization-server.com/auth.scope
 ```
 - When OAuth is used for authentication, the standardized OpenID Connect scopes are often used instead. For example, the scope `openid profile` will grant the client app read access to a predefined set of basic information about the user, such as their email address, username, and so on.
 
+### OAuth Authentication
+- Although not originally intended for this purpose, OAuth has evolved into a means of authenticating users as well. For example, you're probably familiar with the option many websites have to use existing social media account rather than register with the website in question. Good chance that mechanism is built on OAuth 2.0.
+- Result of OAuth authentication is something that broadly resembles SAML-based single sign-on (SSO). OAuth authentication is generally implemented as follows:
+    1. User chooses to log in with social media account. Client app uses social media's OAuth service to request access to some data that it can use to identify the user.
+    2. After receiving access token, client app requests this data from the resource server, typically from a dedicated `/userinfo` endpoint.
+    3. Once received data, client app uses it in place of username to log the user in. Access toekn it received from AuthZ server is often used instead of traditional password.
+- Identifying OAuth: First request will always be to `/authorization` endpoint containing a number of query parameters that are used specifically for OAuth. In pariticlar, keep an eye out for `client_id`, `redirect_uri`, and `response_type` parameters.
+- Recon-wise, you should always try sending a GET request to the following standard endpoints:
+```
+/.well-known/oauth-authorization-server
+/.well-known/openid-configuration
+```
+These will often return a JSOn configuration flie containing key information, such as detauls of additional features supported. 
+
+### Improper implementation of the implicit grant type
+- Mainly recommended for single-page applications; however, it is also often used in a classic client-server web application because of its relative simplicity.
+- Client application is accessing the token from a URL fragment sent from the OAuth service to the cleitn app via JavaScript. If the app wants to maintain a session after the user closes the page, it needs to store the current user data somewhere. To solve this problem, the client app will often submit this data to the server in a POST request and then assign the user a session cookie, effectively logging them in. This is roughly equivalent to the form submission request that might be sent as part of a classic password-based login; hwoever, the server does not have any secrets or passwords to compare the submitted data, which means its implicity trusted.
+- The POST reuqest is exposed to attackers via their browser. As a result, this behavior can lead to a serious vulnerability if the client app does not properly check that the access token matches the other data in the request. In this case, an attacker can change the parameters sent the server and impersonate any user. 
+
 #### OpenID Connect
 - OpenID Connect extends the OAuth protocol to provide a dedicated identity and authentication layer that sits on top of the basic OAuth implementation. 
