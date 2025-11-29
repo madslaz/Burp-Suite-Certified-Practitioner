@@ -15,7 +15,7 @@
 - Grant types determine exact sequence of steps that are involved in OAuth process. The grant type also affects how the client app communicates with the OAuth service at each stage, including how the access token itself is sent. For this reason, grant types are often referred to as "OAuth flows"
 - OAuth service must be configured to support a particular grant type berfore a client app can initiate the corresponding flow. The client application specifies which grant type it wants to use in the intiial authorization request it sends to the OAuth service.
 
-## Authorization code grant type
+#### Authorization code grant type
 - The client app and OAuth service first use redirects to exchange a series of browser-based HTTP requests that intiate the flow. The user is asked whether they consent to the requested access. If they accept, the client app is granted an "authorization code". The client app then exchanges this code with the OAuth service to receive an "access token", which they can use to make API calls to fetch the relevant user data.
 - All communication that takes places from the code/token exchange onward is sent server-to-server over a secure, preconfigured back-channel and is, therefore, invisible to the end user. The secure channel is established when the client application first registers with the OAuth service. At this time, a `client_secret` is also generated, which the client application must use to authenticate itself when sending these server-to-server requests.
 - As the most sensitive data (the access token and user data) is not sent via the  browser, this grant type is arguably the most secure. Server-side apps should ideally always use this grant type if possible.
@@ -68,7 +68,7 @@ Authorization: Bearer z0y9x8w7v6u5
 ```
 7. Resource server should verify that the token is valid and that it belongs to the current client app. If so, it will respond by sending the requested resource i.e. the user's data based on the scope of the access token. Client app can finally use this data for its intended purpose. In the case of OAuth authentication, it will typically be used as an ID to grant the user an authenticated session, effectively logging them in.
 
-### Implicit Grant Type
+#### Implicit Grant Type
 - Much simpler than authorization code. Rather than obtaining an authZ code and then exchanging it for an access token, the client app receives the access token immediately after the user gives their consent.
 - It is now considered deprecated! As it is far less secure. When using the implicit grant type, all comms happen via browser redirects - there is no secure back-channel like in the authorization code flow. This means the sensitive access token and the user's data are more exposed to potential attacks.
 - More suited to single-page applications and native desktop applications, which cannot easily store the `client_secret` on the back-end, and therefore, don't benefit as much from using the authorization code grant type.
