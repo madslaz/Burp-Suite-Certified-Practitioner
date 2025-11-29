@@ -136,7 +136,7 @@ These will often return a JSOn configuration flie containing key information, su
 #### Flawed redirect_uri Validation
 - Best practice to provide an allowlist of their genuine callback URIs when registering with OAuth service. This way, when OAuth service receives a new requiest, it can validate the `request_uri` parameter against this list.
 - Some implementations may allow for a range of subdirectories by checking only that the string starts with the correct sequence of characters. You should try adding or removing arbitrary paths, query parameters, and fragments to see what you can change without triggering an error.
-- If you can append extra values to the default `redirect_uri` param, you might be able to exploit discprenacies between the parsing of the URI by diff. components of the OAuth service. For example, youc an try techniqies such as `https://default-host.com&@foo.evul-user.net+@bar.evil-user.net/. See the following for more on these techniques:
+- If you can append extra values to the default `redirect_uri` param, you might be able to exploit discprenacies between the parsing of the URI by diff. components of the OAuth service. For example, youc an try techniques such as `https://default-host.com&@foo.evul-user.net+@bar.evil-user.net/`. See the following for more on these techniques:
     - [Circumventing SSRF Defenses](https://portswigger.net/web-security/ssrf#circumventing-common-ssrf-defenses)
     -  [CORS](https://portswigger.net/web-security/cors#errors-parsing-origin-headers)
   -  You may occassionally come across server-side param pollution vulns. Just in case, you should try submitting duplicate `redirect_uri` params as follows:
