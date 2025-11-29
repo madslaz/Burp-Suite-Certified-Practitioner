@@ -1,4 +1,4 @@
-#### OAuth 2.0 Authentication Vulnerabilities 
+## OAuth 2.0 Authentication Vulnerabilities 
 - Enables websites and web applications to request limited access to a user's account on another application. Crucially, OAuth allows user to grant this access without exposing their login credentials to the requesting application. This means users can fine-tune which data they want to share rather than having to hand over full control of their account to a third party.
 - Basic OAuth process widely used to integrate 3rd party functionality that requires access to certain data from a user's account. For example, app might use OAuth to request access to your email contacts list so that it can suggest people to connect with. Same mechanism also used to provide 3rd-party authentication services, allowing users to log in with an account that they have with a different website.
 - Defines a series of interactions between three distinct parties, namely a client application, a resource owner, and the OAuth service provider:
@@ -131,7 +131,9 @@ These will often return a JSOn configuration flie containing key information, su
 ### Leaking AuthZ Codes and Access Tokens
 - Depending on the grant type, either a code or token is sent via the victim's browser to the `/callback` endpoint specified in the `redirect_uri` param of the authorization request. If the OAuth service fails to validate this URI properly, an attacker may be able to construct a CSRF-like attack, tricking the victim's browser into initiating an OAuth flow that will send the code or token to an attacker-controlled `redirect_uri`.
 - In the case of the authorization code flow, an attacker can potentially steal the victim's code before it is used. They can then send this code to the client app's legit `/callback` endpoint (the original `redirect_uri`) to get access to the user's account. In this scenario, an attacker does not even need to know the client secret or the resulting access token. As long as the victim has a valid session with the OAuth service, the client app will simply complete the code/token exchange on the attacker's behalf before logging them into the victim's account. Note that using `state` or `nonce` protection does not necessarily prevent these attacks because an attacker can generate new values from their own browser.
-- More secure authorization servers will require a `redirect_uri` paramter to be sent when exchanging the code as well. The server can then check whether this matches the one it received in the initial authorization request and reject the exchange if not. As this happens in server-to-server requests via a secure back-channel, the attacker is not able to control the second `request_uri` parameter. 
+- More secure authorization servers will require a `redirect_uri` paramter to be sent when exchanging the code as well. The server can then check whether this matches the one it received in the initial authorization request and reject the exchange if not. As this happens in server-to-server requests via a secure back-channel, the attacker is not able to control the second `request_uri` parameter.
+
+#### Flawed redirect_uri Validation
 
 #### OpenID Connect
 - OpenID Connect extends the OAuth protocol to provide a dedicated identity and authentication layer that sits on top of the basic OAuth implementation. 
