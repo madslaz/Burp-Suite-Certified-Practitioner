@@ -134,6 +134,17 @@ These will often return a JSOn configuration flie containing key information, su
 - More secure authorization servers will require a `redirect_uri` paramter to be sent when exchanging the code as well. The server can then check whether this matches the one it received in the initial authorization request and reject the exchange if not. As this happens in server-to-server requests via a secure back-channel, the attacker is not able to control the second `request_uri` parameter.
 
 #### Flawed redirect_uri Validation
-
+- Best practice to provide an allowlist of their genuine callback URIs when registering with OAuth service. This way, when OAuth service receives a new requiest, it can validate the `request_uri` parameter against this list.
+- Some implementations may allow for a range of subdirectories by checking only that the string starts with the correct sequence of characters. You should try adding or removing arbitrary paths, query parameters, and fragments to see what you can change without triggering an error.
+- If you can append extra values to the default `redirect_uri` param, you might be able to exploit discprenacies between the parsing of the URI by diff. components of the OAuth service. For example, youc an try techniqies such as `https://default-host.com&@foo.evul-user.net+@bar.evil-user.net/. See the following for more on these techniques:
+    - [Circumventing SSRF Defenses](https://portswigger.net/web-security/ssrf#circumventing-common-ssrf-defenses)
+    -  [CORS](https://portswigger.net/web-security/cors#errors-parsing-origin-headers)
+  -  You may occassionally come across server-side param pollution vulns. Just in case, you should try submitting duplicate `redirect_uri` params as follows:
+```
+ https://oauth-authorization-server.com/?client_id=123&redirect_uri=client-app.com/callback&redirect_uri=evil-user.net
+```
+- Some servers also give special treatment to `localhost` URIs as they're often used in dev. In some cases, any redirect URI beginning with `localhost` may be accidentally permitted in the prod environment. This could allow you to bypass validation by registering a domain name like `localhost.evil-user.net`.
+- Don't just probe the `redirect_uri` param in isolation though. In the wild, you will often need to experiment with diff. combos of changes to several parameters. Sometimes changing one apram can affect the validation of others. For example, changing the `response_mode` from `query` to `fragment` can sometimes completely alter the parsing of the `redirect_uri` param, allowing you to submit URIs that would otherwise be blocked. Likewise, if you notice that `web_message` response mode is supported, this often allows a wider range of subdomains in the `redirect_uri`.
+- 
 #### OpenID Connect
 - OpenID Connect extends the OAuth protocol to provide a dedicated identity and authentication layer that sits on top of the basic OAuth implementation. 
