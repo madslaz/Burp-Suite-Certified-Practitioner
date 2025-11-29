@@ -21,6 +21,7 @@
 - As the most sensitive data (the access token and user data) is not sent via the  browser, this grant type is arguably the most secure. Server-side apps should ideally always use this grant type if possible.
 
 ![oauth-authorization-code-flow](https://github.com/user-attachments/assets/a565af99-510c-443c-955e-3675862d6407)
+
 1. Authorization request:
    - The client app sends a request to the OAuth's service's  `/authorization` endpoint asking for permission to access specific user data. Note that the endpoint mapping may vary between providers; however, you should always be able to identify the endpoint based on the parameters within the request:
 ```
@@ -65,7 +66,33 @@ GET /userinfo HTTP/1.1
 Host: oauth-resource-server.com
 Authorization: Bearer z0y9x8w7v6u5
 ```
-7. 
+7. Resource server should verify that the token is valid and that it belongs to the current client app. If so, it will respond by sending the requested resource i.e. the user's data based on the scope of the access token. Client app can finally use this data for its intended purpose. In the case of OAuth authentication, it will typically be used as an ID to grant the user an authenticated session, effectively logging them in.
+
+### Implicit Grant Type
+- Much simpler than authorization code. Rather than obtaining an authZ code and then exchanging it for an access token, the client app receives the access token immediately after the user gives their consent.
+- It is now considered deprecated! As it is far less secure. When using the implicit grant type, all comms happen via browser redirects - there is no secure back-channel like in the authorization code flow. This means the sensitive access token and the user's data are more exposed to potential attacks.
+- More suited to single-page applications and native desktop applications, which cannot easily store the `client_secret` on the back-end, and therefore, don't benefit as much from using the authorization code grant type.
+  
+<img src="https://portswigger.net/web-security/images/oauth-implicit-flow.jpg" alt="Flow for the OAuth implicit grant type"/>
+
+1. The implicit flow starts in the same way as the authorization code flow. Only major difference is that the response_type parameter must be set to `token`
+```
+GET /authorization?client_id=12345&redirect_uri=https://client-app.com/callback&response_type=token&scope=openid%20profile&state=ae13d489bd00e3c24 HTTP/1.1
+Host: oauth-authorization-server.com
+```
+2. User logs in and decides wheter to consent to the requested permissions or not. Process is exactly the same as for the authorization code flow.
+3. If the user consents to requested access, the OAuth service will redirect the user's browser to the `redirect_uri` specified in the authorization request; however, instead of sending a query parameter containing an authZ code, it will send the access token and other token-specific data as a URL fragment. As the access token is sent in a URL fragment, it is never sent directly to the client app. Instead, the client app must use a suitable script to extract the fragment and store it:
+```
+GET /authorization?client_id=12345&redirect_uri=https://client-app.com/callback&response_type=token&scope=openid%20profile&state=ae13d489bd00e3c24 HTTP/1.1
+Host: oauth-authorization-server.com
+```
+4. Once the client app has successfully extracted the access token from the URL fragment, it can use it to make API calls to the OAuth service's `/userinfo` endpoint. Unlike in the authorization code flow, this also happens via the browser:
+```
+GET /userinfo HTTP/1.1
+Host: oauth-resource-server.com
+Authorization: Bearer z0y9x8w7v6u5
+```
+5. The resource server should verify that the token is valid and that it belongs to the current client application. If so, it will respond by sending the requested resource i.e., the user's data based on the scope associated with the access token. The client app will finally use the data for its intended purpose. In the cause of OAuth authentication, it will typically be used as an ID to grant the user an authenticated session,e ffectivelly logging them in. 
 
 ### OAuth Scopes
 - For any grant type, the client app has to specify which data it wants to access and what kind of operations it wants to perform. It does this using the `scope` parameter of the authorization request it sends to the OAuth service.
@@ -77,8 +104,6 @@ scope=contact-list-r
 scope=https://oauth-authorization-server.com/auth.scope
 ```
 - When OAuth is used for authentication, the standardized OpenID Connect scopes are often used instead. For example, the scope `openid profile` will grant the client app read access to a predefined set of basic information about the user, such as their email address, username, and so on.
-
-
 
 #### OpenID Connect
 - OpenID Connect extends the OAuth protocol to provide a dedicated identity and authentication layer that sits on top of the basic OAuth implementation. 
