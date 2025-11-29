@@ -39,8 +39,33 @@ Host: oauth-authorization-server.com
  GET /callback?code=a1b2c3d4e5f6g7h8&state=ae13d489bd00e3c24 HTTP/1.1
 Host: client-app.com
 ```
-
-
+4. Once the client app receives the authZ code, it needs to exchange it for an access token. To do this, it sends a server-to-server POST request to the OAuth service's `/token` endpoint. All communication from this point on takes place in a secure back-channel, and therefore, cannot usually be observed or controlled by an attacker.
+```
+POST /token HTTP/1.1
+Host: oauth-authorization-server.com
+…
+client_id=12345&client_secret=SECRET&redirect_uri=https://client-app.com/callback&grant_type=authorization_code&code=a1b2c3d4e5f6g7h8
+```
+  - In addition to the `client_id` and AuthZ `code`, you will notice the following new parameters:
+      - `client_secret`: Client app must authenticate itself by including the secret key that it was assigned when registering with the OAuth service.
+      - `grant_type`: Used to make sure the new endpoint knows which grant type the client app wants to use. In this case, it should be set to `authorization_code`.
+5. OAuth service validates access token request. If everything is expected, server responds by granting the client app an access token with the request scope:
+```
+{
+    "access_token": "z0y9x8w7v6u5",
+    "token_type": "Bearer",
+    "expires_in": 3600,
+    "scope": "openid profile",
+    …
+}
+```
+6. Now the client app has the access code, it can finally fetch the user's data from the resource server. To do this, it makes an API call to the OAuth service's `/userinfo` endpoint. The access token is submitted in the `Authorization: Bearer` header to prove that the client app has permission to access the data:
+```
+GET /userinfo HTTP/1.1
+Host: oauth-resource-server.com
+Authorization: Bearer z0y9x8w7v6u5
+```
+7. 
 
 ### OAuth Scopes
 - For any grant type, the client app has to specify which data it wants to access and what kind of operations it wants to perform. It does this using the `scope` parameter of the authorization request it sends to the OAuth service.
