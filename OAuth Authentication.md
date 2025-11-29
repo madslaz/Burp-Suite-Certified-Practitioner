@@ -29,7 +29,17 @@ Host: oauth-authorization-server.com
 ```
   - This request contains the following noteworthy parameters, usually provided in the query string:
       - `client_id`: Mandatory param containing the unique identifier of the client app. This value is generated when the client app registers with the OAuth service.
-      - `redirect_uri`: The URI to which the user's browser should be redirected when sending the authorization code to the client app. This is also known as the "callback URI" or "callback endpoint". Many OAuth attacks are based on exploiting flaws in the validation of this parameter. 
+      - `redirect_uri`: The URI to which the user's browser should be redirected when sending the authorization code to the client app. This is also known as the "callback URI" or "callback endpoint". Many OAuth attacks are based on exploiting flaws in the validation of this parameter.
+      - `response_type`: Determines which kind of response the client application is expecting, and therefore, which flow it wants to initiate. For the authorization code grant type, the value should be `code`.
+      - `scope`: Used to specify which subset of the user's data the client application wants to access. note that these may be custom scopes set by the OAuth provider or standardized scopes defined by the OpenID Connect specification.
+      - `state`: Stores a unique, unguessable value that is tied to the current session on the client app. The OAuth service should return this exact value in the response, along with the autorization code. This parameter serves as a form of CSRF token for the client app by making sure that the request to its `/callback` endpoint is from the same person who initiated the OAuth flow.
+  2. When the authorization server receives the initial request, it will redirect the user to a login page, where they will be prompted to log ino to their account with the OAuth provider. For example, this is often a social media account. They will then be presented with a list of data the client app wants to access, based on the scopes defined in the authZ request. User can choose to consent for access. Once a user has approved a given scope for a client app, this step will be completed automatically as long as the user still has a valid session with the OAuth service, In other words, the first time the user selects 'Log in with social media', they will need to manually log in and give their consent, but if they revisit the client app later, they will often be able to log back in with a single click.
+3. If the user consents to the requested access, their browser will be redirected to the `/callback` endpoint that was specified in the `redirect_uri` param of the AuthZ request. The resulting GET request will contain the AuthZ code as a query parameter. Depending on the config, it may also send the `state` parameter with the same value as in the AuthZ request:
+```
+ GET /callback?code=a1b2c3d4e5f6g7h8&state=ae13d489bd00e3c24 HTTP/1.1
+Host: client-app.com
+```
+
 
 
 ### OAuth Scopes
