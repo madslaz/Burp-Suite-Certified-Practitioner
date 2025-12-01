@@ -175,7 +175,7 @@ GET /auth?client_id=wkif167dcko8iakmxn21i&redirect_uri=https://0af4009d043877318
 - OpenID Connect extends the OAuth protocol to provide a dedicated identity and authentication layer that sits on top of the basic OAuth implementation.
 - Adds some simple functionality that enables better support for the authentication use case of OAuth.
 - OAuth was not initially designed with authentication in mind. Intended to be a means of delegating authorizations for specific resources between applications. Originally, to perform authentication, websites just requested read access to some basic user data, and if they were granted this access, assumed that the user authenticated themselves on the side of OAuth. This is far from ideal, as the client app had no way of knowing when, where, or how the user was authenticated. Also no standard way of requesting user data for this purpose. To support OAuth properly, client apps would have to configure separate OAuth mechanisms for each provider, each with different endpoints, unique sets of scopes, and so on.
-- OpenID solves these issues by adding standardized, identity-related features to make authentication via OAuth work in a reliable and uniform way.
+  - OpenID solves these issues by adding standardized, identity-related features to make authentication via OAuth work in a reliable and uniform way.
 - How does it work?
   - Additional, standardized set of scopes that are the same for all providers, and an extra response type: `id_token`
   - OpenID Connect roles:
@@ -184,4 +184,35 @@ GET /auth?client_id=wkif167dcko8iakmxn21i&redirect_uri=https://0af4009d043877318
     - OpenID provider: OAuth service configured to support OpenID Connect
   - OpenID Connect claims and scopes
     - The term "claims" refers to the `key:value` pairs that represent info about the user on the resource server, such as `"family_name":"Montoya"`. Unlike basic OAuth, whose scopes are unique to each provider, OpenID Connect services use an identical set of scopes. In order to use OpenID COnnect, the client application must specify the scope `openid` in the authorization request. They can then include one or more of the other standard scopes: `profile, email, address, phone`.
-      - Each of these scopes corresponds to read access for a subset of claims about the user defined in the OpenID specification. For example, requesting the scope `openid profile` will grant the client app read access to a series of claims related to the user's identity, such as `family_name`, `given_name`, `birth_date`, and so on.  
+      - Each of these scopes corresponds to read access for a subset of claims about the user defined in the OpenID specification. For example, requesting the scope `openid profile` will grant the client app read access to a series of claims related to the user's identity, such as `family_name`, `given_name`, `birth_date`, and so on.
+- ID token: other main addition is the `id_token` response type which returns a JWT. Contains a list of claims based on the scope that was initially requested. Also contains info about how and when the user was last authenticated by the OAuth service. Can be used by client app to decide whether or not this user has been sufficiently authenticated.
+  - It's possible for JWT keys to be exposed, like directories such as `/.well-known/jwks.json`
+  - Multiple response types are supported by OAth, so it's acceptable for a client application to send an authorization request with both a basic OAUth response type and OpenID's Connect's `id_token` response type: `response_type=id_token token, response_type=id_token code`. 
+- Potential vulnerabilities:
+  - Unprotected dynamic client registration: OpenID specification outlines a standardized way of allowing client apps to register with the OpenID provider. If dynamic client registration is supported, the client application can register itself by sending a POST request to a dedicated `/registration` endpoint. The name of the endpoint is usually provided in the configuration file and document. A typical request may consist of many parts and is shown below:
+```
+POST /openid/register HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+Host: oauth-authorization-server.com
+Authorization: Bearer ab12cd34ef56gh89
+
+{
+    "application_type": "web",
+    "redirect_uris": [
+        "https://client-app.com/callback",
+        "https://client-app.com/callback2"
+        ],
+    "client_name": "My Application",
+    "logo_uri": "https://client-app.com/logo.png",
+    "token_endpoint_auth_method": "client_secret_basic",
+    "jwks_uri": "https://client-app.com/my_public_keys.jwks",
+    "userinfo_encrypted_response_alg": "RSA1_5",
+    "userinfo_encrypted_response_enc": "A128CBC-HS256",
+    …
+}
+```
+- For the lab, I visited `https://oauth-0a5b007004cb4101805b01e202fc003e.oauth-server.net/.well-known/openid-configuration` and I noticed the registration endpoint was available at `/reg`.
+- Okay, now we need to find where this application uses client data wonkily. How about that Authorize page and the client logo?
+<img width="1879" height="1776" alt="image" src="https://github.com/user-attachments/assets/e0f48dfe-7d0f-4f3f-95cd-5a863f4fe9b9" />
+
