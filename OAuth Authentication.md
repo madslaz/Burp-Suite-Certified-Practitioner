@@ -172,4 +172,16 @@ GET /auth?client_id=wkif167dcko8iakmxn21i&redirect_uri=https://0af4009d043877318
 ```
 
 #### OpenID Connect
-- OpenID Connect extends the OAuth protocol to provide a dedicated identity and authentication layer that sits on top of the basic OAuth implementation. 
+- OpenID Connect extends the OAuth protocol to provide a dedicated identity and authentication layer that sits on top of the basic OAuth implementation.
+- Adds some simple functionality that enables better support for the authentication use case of OAuth.
+- OAuth was not initially designed with authentication in mind. Intended to be a means of delegating authorizations for specific resources between applications. Originally, to perform authentication, websites just requested read access to some basic user data, and if they were granted this access, assumed that the user authenticated themselves on the side of OAuth. This is far from ideal, as the client app had no way of knowing when, where, or how the user was authenticated. Also no standard way of requesting user data for this purpose. To support OAuth properly, client apps would have to configure separate OAuth mechanisms for each provider, each with different endpoints, unique sets of scopes, and so on.
+- OpenID solves these issues by adding standardized, identity-related features to make authentication via OAuth work in a reliable and uniform way.
+- How does it work?
+  - Additional, standardized set of scopes that are the same for all providers, and an extra response type: `id_token`
+  - OpenID Connect roles:
+    - Relying party: app that is requesting authentication of a user. This is synonymous with the OAuth client application.
+    - End user: the user who is being authenticated. Synonymous with OAuth resource owner.
+    - OpenID provider: OAuth service configured to support OpenID Connect
+  - OpenID Connect claims and scopes
+    - The term "claims" refers to the `key:value` pairs that represent info about the user on the resource server, such as `"family_name":"Montoya"`. Unlike basic OAuth, whose scopes are unique to each provider, OpenID Connect services use an identical set of scopes. In order to use OpenID COnnect, the client application must specify the scope `openid` in the authorization request. They can then include one or more of the other standard scopes: `profile, email, address, phone`.
+      - Each of these scopes corresponds to read access for a subset of claims about the user defined in the OpenID specification. For example, requesting the scope `openid profile` will grant the client app read access to a series of claims related to the user's identity, such as `family_name`, `given_name`, `birth_date`, and so on.  
