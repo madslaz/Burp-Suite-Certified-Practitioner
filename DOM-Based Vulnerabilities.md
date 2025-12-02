@@ -18,7 +18,7 @@
 ```
 <iframe src="https://0ad100d3038832aa803003be0024007b.web-security-academy.net/" onload="this.contentWindow.postMessage('<audio src/onerror=print()>','*')">
 ```
-
+<audio src/onerror=print()>
 #### Lab: DOM XSS Using Web Messages and JavaScript URL
 - I knew it was a DOM-based redirection vulnerability through web messaging, so I just needed to locate it. I noticed there was comment functionality on the blog posts of the web app, so I focused there.
 - The comment functionality allows a user to provide a website, which is then linked to the username. Upon pressing the username, the user is redirected to the website ... this must be where the vulnerability is. Let's take a look...wait, there's no web messaging functionality here. This must not be it. Good place to look for another lab, but let's move on ...
