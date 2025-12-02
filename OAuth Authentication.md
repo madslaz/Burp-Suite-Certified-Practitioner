@@ -215,4 +215,4 @@ Authorization: Bearer ab12cd34ef56gh89
 - For the lab, I visited `https://oauth-0a5b007004cb4101805b01e202fc003e.oauth-server.net/.well-known/openid-configuration` and I noticed the registration endpoint was available at `/reg`.
 - Okay, now we need to find where this application uses client data wonkily. How about that Authorize page and the client logo?
 <img width="1879" height="1776" alt="image" src="https://github.com/user-attachments/assets/e0f48dfe-7d0f-4f3f-95cd-5a863f4fe9b9" />
-
+- Added `http://169.254.169.254/latest/meta-data/iam/security-credentials/admin/` as a `logo_uri` according to RFC 7591. I then navigated to `https://oauth-0ab600cd04d7059481b3fa4e02710073.oauth-server.net/client/QnfHrQsx4DLrrMG7ratCf/logo`.
