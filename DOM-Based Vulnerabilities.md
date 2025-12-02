@@ -76,3 +76,5 @@
 - An arithmetic operator, in this case a subtraction operator, is then used to separate the expressions before the `alert()` function is called. Finally, a closing curly bracket and two forward slashes close the JSON object early and comment out what would have been the rest of the object. I tried it again with another arithmetic operator, and I found it worked, `\"+alert(1)}//`. 
 - eval() is dangerous because it evalutes or executes an argument.
 
+#### Lab: DOM-Based Open Redirection
+- `https://0a1900420319cd93805203df00460069.web-security-academy.net/post?postId=4&url=https://exploit-0aaf008f0383cd0e80ea02e6016500db.exploit-server.net/exploit#`
