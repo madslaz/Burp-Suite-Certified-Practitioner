@@ -78,3 +78,19 @@
 
 #### Lab: DOM-Based Open Redirection
 - `https://0a1900420319cd93805203df00460069.web-security-academy.net/post?postId=4&url=https://exploit-0aaf008f0383cd0e80ea02e6016500db.exploit-server.net/exploit#`
+
+#### Lab: DOM XSS using web messages and `JSON.parse`
+- Navigated application, found the below eventListener:
+```
+window.addEventListener('message', function(e) {
+                            var iframe = document.createElement('iframe'), ACMEplayer = {element: iframe}, d;
+                            document.body.appendChild(iframe);
+                            try {
+                                d = JSON.parse(e.data);
+                            } catch(e) {
+                                return;
+                            }
+```
+- `JSON.parse()` parses a JSON string, constructing the JS value or object described by the string. Example, `const json = '{"result":true, "count":42}'; const obj = JSON.parse(json); console.log(obj.count);` would result in 42. `obj.result` would result in true.
+- 
+- 
